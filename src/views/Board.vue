@@ -1,6 +1,13 @@
 <template>
   <div>
     <h2>게시판 글 목록</h2>
+    <div class="search_box">
+      <nav>
+        <router-link class="btn btn-primary" to="/">모든 글 보기</router-link>
+        |
+        <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
+      </nav>
+    </div>
     <table>
       <thead>
         <tr>
