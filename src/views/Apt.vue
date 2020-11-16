@@ -8,10 +8,10 @@
     <search-bar @send-dong-code="sendDongCode"/>
     <b-row>
       <b-col cols="5" align="left">
-        <apt-list :aptlist="apts"/>
+        <apt-list :aptlist="apts" @select-apt="selectedApt"/>
       </b-col>
       <b-col cols="7">
-        <apt-detail />
+        <apt-detail :apt="selectApt"/>
       </b-col>
     </b-row>
   </b-container>
@@ -39,6 +39,7 @@ export default {
   data() {
     return {
       dongCode: '',
+      selectApt: '',
       apts: [],
     };
   },
@@ -59,7 +60,10 @@ export default {
       .catch((error)=>{
         console.log(error);
       })
-    }
+    },
+    selectedApt: function(apt) {
+      this.selectApt = apt;
+    },
   },
 };
 </script>

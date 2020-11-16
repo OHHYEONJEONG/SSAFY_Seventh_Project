@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 10px;" @click="selectApt">
+  <div style="margin: 10px;" @click="selectedApt">
     <img src="@/assets/apt.png" class="img-list" alt="" />[{{apt.일련번호}}]
     {{ apt.아파트 }}</div>
 </template>
@@ -11,7 +11,7 @@ export default {
     apt:Object,
   },
   methods: {
-    selectApt: function(){4
+    selectedApt: function(){
       this.$emit('select-apt',this.apt);
     }
   },
