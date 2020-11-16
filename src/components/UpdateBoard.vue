@@ -17,7 +17,7 @@
       <tr>
         <th>제목</th>
         <td>
-          <input
+          <b-form-input
             data-msg="제목"
             type="text"
             name="title"
@@ -25,13 +25,14 @@
             size="20"
             v-model="article.title"
             style="width:30%"
-          />
+          >
+          </b-form-input>
         </td>
       </tr>
       <tr>
         <th>내용</th>
         <td>
-          <input
+          <b-form-input
             data-msg="내용"
             type="text"
             name="content"
@@ -39,7 +40,8 @@
             size="30"
             v-model="article.content"
             style="width:30%"
-          />
+          >
+          </b-form-input>
         </td>
       </tr>
       <tr>

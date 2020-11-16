@@ -6,12 +6,13 @@
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
 
     <table>
-      <thead>
-        <tr>
-          <th v-for="(colname, index) in colnames" :key="index" v-html="colname"></th>
-        </tr>
-      </thead>
-      <tbody>
+      <b-thead>
+        <b-tr>
+          <b-th v-for="(colname, index) in colnames" :key="index" v-html="colname"></b-th>
+        </b-tr>
+      </b-thead>
+
+      <b-tbody>
         <tr v-for="article in articles" :key="article.no">
           <td v-html="article.no" @click="detailArticle(article.no)"></td>
           <td v-html="article.writer" @click="detailArticle(article.no)"></td>
@@ -21,7 +22,7 @@
             <button name="삭제" @click="deleteArticle(article.no)">삭제</button>
           </td>
         </tr>
-      </tbody>
+      </b-tbody>
     </table>
   </div>
 </template>
