@@ -1,18 +1,24 @@
 <template>
   <div>
     <h2>게시판 글 목록</h2>
-   <b-table
-      :items="items"
-      :fields="fields"
-      responsive="sm"
-    >
-      <template>
-        <b-thead>
-        <b-tr>
-          <b-th v-for="(colname, index) in colnames" :key="index" v-html="colname"></b-th>
-        </b-tr>
-         </b-thead>
-      </template>
+    <table>
+      <thead>
+        <tr>
+          <th v-for="(colname, index) in colnames" :key="index" v-html="colname"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="article in articles" :key="article.no">
+          <td v-html="article.no" @click="detailArticle(article.no)"></td>
+          <td v-html="article.writer" @click="detailArticle(article.no)"></td>
+          <td v-html="article.title" @click="detailArticle(article.no)"></td>
+          <td v-html="article.regtime"></td>
+          <td>
+            <button name="삭제" @click="deleteArticle(article.no)">삭제</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
