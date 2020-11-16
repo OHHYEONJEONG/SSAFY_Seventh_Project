@@ -65,9 +65,8 @@
 
     <div v-else>
       <h4>성공적으로 글등록이 완료하였습니다!</h4>
-      <button class="btn btn-success" v-on:click="newContent">
-        새로 글 추가하기
-      </button>
+      <router-link class="btn btn-primary" to="/insert">새 글 작성</router-link>
+     <router-link class="btn btn-primary" to="/qnaboard">목록으로</router-link>
     </div>
   </div>
 </template>
@@ -125,12 +124,7 @@ export default {
         });
       this.submitted = true;
     },
-    newCustomer() {
-      (this.submitted = false),
-        (this.writer = null),
-        (this.title = null),
-        (this.title = null);
-    },
+  
   },
 };
 </script>

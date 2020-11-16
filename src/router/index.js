@@ -4,6 +4,8 @@ import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Apt from '@/views/Apt.vue';
 import Board from '@/views/Board.vue';
+import InsertBoard from '@/components/InsertBoard.vue';
+import SelectBoardByNo from '@/components/SelectBoardByNo.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +30,17 @@ const routes = [
     name: 'Board',
     component: Board,
   },
+  {
+    path: '/insert',
+    name: 'InsertBoard',
+    component: InsertBoard,
+  },
+  {
+    path: '/detail/:no',
+    name: 'SelectBoardByNo',
+    component: SelectBoardByNo,
+  },
+
 ];
 
 const router = new VueRouter({

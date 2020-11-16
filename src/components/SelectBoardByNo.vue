@@ -53,6 +53,7 @@ export default {
     },
   },
   mounted() {
+    console.log("넘버 넘어오?"+this.no);
     http
       .get('/detail/' + this.no)
       .then((response) => (this.article = response.data))
