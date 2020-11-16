@@ -1,10 +1,12 @@
 <template>
   <div>
-    <h3>사원정보</h3>
+    <h3>글 정보</h3>
+    <br>
     <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
     |
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-    <table>
+    <br><br>
+    <table class="table table-striped table-bordered table-hover">
       <tr>
         <td>글번호</td>
         <td v-html="article.no"></td>
@@ -26,7 +28,7 @@
         <td v-html="article.regtime"></td>
       </tr>
       <tr>
-        <td>
+        <td colspan="2">
           <button name="수정하기" @click="updateArticle(article.no)">
             수정하기
           </button>
@@ -51,7 +53,6 @@ export default {
   },
   methods: {
     updateArticle(did) {
-      alert(did + '글을 수정합니다.');
       this.$router.push('/update/' + did);
     },
   },

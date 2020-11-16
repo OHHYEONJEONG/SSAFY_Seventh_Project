@@ -4,6 +4,12 @@
       <b-col>
         <h2>아파트 매매 정보</h2>
       </b-col>
+      
+    </b-row>
+    <b-row>
+      <b-col>
+        <p>*아파트 코드를 입력하세요*</p>
+      </b-col>
     </b-row>
     <search-bar @send-dong-code="sendDongCode"/>
     <b-row>

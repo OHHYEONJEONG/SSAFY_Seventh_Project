@@ -1,11 +1,12 @@
 <template>
   <div>
     <h3>사원정보</h3>
-
+    <br>
     <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
     |
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-    <table>
+    <br><br>
+    <table class="table table-striped table-bordered table-hover">
       <tr>
         <td>글번호</td>
         <td v-html="article.no"></td>
@@ -39,7 +40,7 @@
             id="_content"
             size="30"
             v-model="article.content"
-            style="width:30%"
+            style="width:100%; height:100px;"
           >
           </b-form-input>
         </td>

@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col align="left">
+    <b-col>
       <input type="text" v-model="dongCode" @keypress.enter="sendDongCode"/>
       <b-button @click="sendDongCode">검색</b-button>
     </b-col>

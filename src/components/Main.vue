@@ -15,21 +15,44 @@
     >
       <!-- Text slides with image -->
       <b-carousel-slide
-        caption="First slide"
+        caption="Happy House"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
         img-src="https://picsum.photos/1024/480/?image=54"
       ></b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-        <h1>Hello world!</h1>
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=12">
+        <h1>Happy House!</h1>
       </b-carousel-slide>
 
       <!-- Slides with image only -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58">
+        <h1>Happy House!</h1>
+      </b-carousel-slide>
 
     </b-carousel>
+    <br><br><br>
+    <div>
+    <b-row>
+      <b-col>
+        <b-dropdown text="시">
+          <b-dropdown-item href="#">서울특별시</b-dropdown-item>
+          <b-dropdown-item href="#">대전광역시</b-dropdown-item>
+          <b-dropdown-item href="#">부산광역시</b-dropdown-item>
+        </b-dropdown>
+      </b-col>
+      <b-col>
+        <b-dropdown text="군/구">
+        </b-dropdown>
+      </b-col>
+      <b-col>
+        <b-dropdown text="동">
+        </b-dropdown>
+      </b-col>
+    </b-row>
 
+    </div>
+    
     
   </div>
 </template>

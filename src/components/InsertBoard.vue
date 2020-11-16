@@ -1,5 +1,12 @@
 <template>
+
   <div>
+    <h3>글 작성하기</h3>
+    <br>
+    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    |
+    <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
+    <br><br>
     <div v-if="!submitted">
       <form action method="post" id="_frmForm" name="frmForm" @submit.prevent="insertBoard">
         <table class="content_table">

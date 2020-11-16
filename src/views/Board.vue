@@ -1,11 +1,15 @@
 <template>
   <div>
     <h3>글 목록</h3>
+    <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
+    <br>
     <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
     |
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-
-    <table>
+    <br>
+    <br>
+    <div>
+    <table class="table table-striped table-bordered table-hover">
       <b-thead>
         <b-tr>
           <b-th v-for="(colname, index) in colnames" :key="index" v-html="colname"></b-th>
@@ -24,6 +28,7 @@
         </tr>
       </b-tbody>
     </table>
+    </div>
   </div>
 </template>
 
@@ -42,7 +47,6 @@ export default {
   },
   methods: {
     detailArticle(did) {
-      alert(did + '글 정보입니다.');
       this.$router.push('/detail/' + did);
     },
     retrieveArticle() {
