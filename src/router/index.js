@@ -3,9 +3,10 @@ import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Apt from '@/views/Apt.vue';
-import Board from '@/views/Board.vue';
+import SelectBoard from '@/views/Board.vue';
 import InsertBoard from '@/components/InsertBoard.vue';
 import SelectBoardByNo from '@/components/SelectBoardByNo.vue';
+import UpdateBoard from '@/components/UpdateBoard.vue';
 
 Vue.use(VueRouter);
 
@@ -27,8 +28,8 @@ const routes = [
   },
   {
     path: '/qnaboard',
-    name: 'Board',
-    component: Board,
+    name: 'SelectBoard',
+    component: SelectBoard,
   },
   {
     path: '/insert',
@@ -39,8 +40,14 @@ const routes = [
     path: '/detail/:no',
     name: 'SelectBoardByNo',
     component: SelectBoardByNo,
+    props: true,
   },
-
+  {
+    path: '/update/:no',
+    name: 'UpdateBoard',
+    component: UpdateBoard,
+    props: true,
+  },
 ];
 
 const router = new VueRouter({

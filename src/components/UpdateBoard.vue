@@ -1,6 +1,10 @@
 <template>
   <div>
     <h3>사원정보</h3>
+
+    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    |
+    <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
     <table>
       <tr>
         <td>글번호</td>
@@ -13,13 +17,29 @@
       <tr>
         <th>제목</th>
         <td>
-          <input data-msg="제목" type="text" name="title" id="_title" size="20" v-model="article.title" style="width:30%" />
+          <input
+            data-msg="제목"
+            type="text"
+            name="title"
+            id="_title"
+            size="20"
+            v-model="article.title"
+            style="width:30%"
+          />
         </td>
       </tr>
       <tr>
         <th>내용</th>
         <td>
-          <input data-msg="내용" type="text" name="content" id="_content" size="30" v-model="article.content" style="width:30%" />
+          <input
+            data-msg="내용"
+            type="text"
+            name="content"
+            id="_content"
+            size="30"
+            v-model="article.content"
+            style="width:30%"
+          />
         </td>
       </tr>
       <tr>

@@ -1,13 +1,10 @@
 <template>
   <div>
-    <h2>게시판 글 목록</h2>
-    <div class="search_box">
-      <nav>
-        <router-link class="btn btn-primary" to="/">모든 글 보기</router-link>
-        |
-        <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-      </nav>
-    </div>
+    <h3>글 목록</h3>
+    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    |
+    <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
+
     <table>
       <thead>
         <tr>
@@ -32,7 +29,7 @@
 <script>
 import http from '../http-common';
 export default {
-  name: 'Board',
+  name: 'SelectBoard',
   data() {
     return {
       colnames: ['글번호', '글쓴이', '제목', '시간'],
@@ -80,4 +77,20 @@ export default {
 };
 </script>
 
-<style></style>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

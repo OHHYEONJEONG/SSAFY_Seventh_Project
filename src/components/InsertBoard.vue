@@ -1,13 +1,7 @@
 <template>
   <div>
     <div v-if="!submitted">
-      <form
-        action
-        method="post"
-        id="_frmForm"
-        name="frmForm"
-        @submit.prevent="insertBoard"
-      >
+      <form action method="post" id="_frmForm" name="frmForm" @submit.prevent="insertBoard">
         <table class="content_table">
           <colgroup>
             <col style="width:30%;" />
@@ -66,7 +60,7 @@
     <div v-else>
       <h4>성공적으로 글등록이 완료하였습니다!</h4>
       <router-link class="btn btn-primary" to="/insert">새 글 작성</router-link>
-     <router-link class="btn btn-primary" to="/qnaboard">목록으로</router-link>
+      <router-link class="btn btn-primary" to="/qnaboard">목록으로</router-link>
     </div>
   </div>
 </template>
@@ -124,7 +118,6 @@ export default {
         });
       this.submitted = true;
     },
-  
   },
 };
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div>
     <h3>사원정보</h3>
+    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    |
+    <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
     <table>
       <tr>
         <td>글번호</td>
@@ -53,7 +56,6 @@ export default {
     },
   },
   mounted() {
-    console.log("넘버 넘어오?"+this.no);
     http
       .get('/detail/' + this.no)
       .then((response) => (this.article = response.data))
