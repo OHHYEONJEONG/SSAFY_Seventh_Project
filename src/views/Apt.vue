@@ -8,20 +8,20 @@
     <search-bar @send-dong-code="sendDongCode"/>
     <b-row>
       <b-col cols="5" align="left">
-        <apt-list :aptlist="apts" @select-apt="selectApt"/>
+        <apt-list :aptlist="apts"/>
       </b-col>
       <b-col cols="7">
-        <apt-detail :apt="selectedApt"/>
+        <apt-detail />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import axios from 'axios';
 import SearchBar from '@/components/SearchBar.vue';
 import AptList from '@/components/AptList.vue';
 import AptDetail from '@/components/AptDetail.vue';
+import axios from 'axios';
 
 // vue cli enviroment variables 검색
 // 반드시 VUE_APP으로 시작해야 한다.
@@ -39,35 +39,26 @@ export default {
   data() {
     return {
       dongCode: '',
-      selectedApt:'',
       apts: [],
     };
   },
   methods: {
-    sendDongCode:function(dongCode){
-      console.log('>>>>>>'+dongCode);
+    sendDongCode(dongCode){
+      console.log("전달된 데이터: "+dongCode);
       this.dongCode = dongCode;
 
-      const API_KEY = '9Xo0vlglWcOBGUDxH8PPbuKnlBwbWU6aO7%2Bk3FV4baF9GXok1yxIEF%2BIwr2%2B%2F%2F4oVLT8bekKU%2Bk9ztkJO0wsBw%3D%3D';
-      
-      const API_URL =
-        'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD='+
-        dongCode +
-        '&DEAL_YMD=202011&serviceKey=' + 
-        API_KEY;
+      const API_KEY = 'dGfDa9%2BKMT7%2Fde3pabp8NyJqgrzY8roBjPsl6AuJjoAtfz9s92qTR%2FS8KU%2FGKpWzCz7EefDTc9kwUtEYc6O29Q%3D%3D'; 
+      const API_URL = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD='+dongCode+'&DEAL_YMD=202011&serviceKey='+API_KEY;
 
       axios
-        .get(API_URL)
-        .then((response) => {
-          console.log(response); // apt list
-          this.apts = response.data.response.body.items.item;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    selectApt:function(apt){
-      this.selectedApt=apt;
+      .get(API_URL)
+      .then((response)=>{
+        console.log(response);
+        this.apts=response.data.response.body.items.item;
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
     }
   },
 };
