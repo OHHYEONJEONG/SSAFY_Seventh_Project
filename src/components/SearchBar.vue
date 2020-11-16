@@ -2,7 +2,7 @@
   <b-row>
     <b-col align="left">
       <input type="text" v-model="dongCode" @keypress.enter="sendDongCode"/>
-      <button @click="sendDongCode">검색</button>
+      <b-button @click="sendDongCode">검색</b-button>
     </b-col>
   </b-row>
 </template>
