@@ -1,30 +1,23 @@
 <template>
-  <div id="app">
-    <Header />
-    <b-container fluid class="bv-example-row">
-      <b-row class="mb-3"> </b-row>
-    </b-container>
-    <!-- 3. 보여주기 -->
+  <v-app id="app">
+      <Header/>
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script>
-//1. 사용할 컴포넌트 불러오기.
-import Header from '@/components/Header.vue';
+import Header from './components/Header';
 
 export default {
   name: 'App',
+
   components: {
-    // ES6 : property shorthand
-    // Header: Header == Header
-    //2. 컴포넌트 등록하기.
     Header,
   },
-  data() {
-    return {};
-  },
-  methods: {},
+
+  data: () => ({
+    //
+  }),
 };
 </script>
 
@@ -36,17 +29,15 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+

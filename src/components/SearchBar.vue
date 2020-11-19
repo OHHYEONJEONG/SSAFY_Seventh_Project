@@ -1,27 +1,27 @@
 <template>
-  <b-row>
-    <b-col>
-      <input type="text" v-model="dongCode" @keypress.enter="sendDongCode"/>
-      <b-button @click="sendDongCode">검색</b-button>
-    </b-col>
-  </b-row>
+  <v-row>
+    <v-col>
+      <input type="text" v-model="dongCode" placeholder="아파트 코드를 입력하세요." @keypress.enter="sendDongCode" />
+      <v-btn @click="sendDongCode">검색</v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 export default {
-  name: 'SearchBar',
+  name: "SearchBar",
   data() {
     return {
-      dongCode:'',
-    }
+      dongCode: ""
+    };
   },
   methods: {
-    sendDongCode:function(){
+    sendDongCode: function() {
       //console.log(event.target.value);
       console.log(this.dongCode);
-      this.$emit('send-dong-code',this.dongCode);//발생할 이벤트 이름, 보낼 데이터
+      this.$emit("send-dong-code", this.dongCode); //발생할 이벤트 이름, 보낼 데이터
     }
-  },
+  }
 };
 </script>
 

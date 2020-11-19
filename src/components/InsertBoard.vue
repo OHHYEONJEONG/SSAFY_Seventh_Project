@@ -1,19 +1,25 @@
 <template>
-
   <div>
+    <h3></h3>
+    <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
+    <br />
     <h3>글 작성하기</h3>
-    <br>
-    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    <br />
+    <router-link class="btn btn-primary" to="/qnaboard"
+      >모든 글 보기</router-link
+    >
     |
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-    <br><br>
+    <br /><br />
     <div v-if="!submitted">
-      <form action method="post" id="_frmForm" name="frmForm" @submit.prevent="insertBoard">
-        <table class="content_table">
-          <colgroup>
-            <col style="width:30%;" />
-            <col style="width:70%;" />
-          </colgroup>
+      <form
+        action
+        method="post"
+        id="_frmForm"
+        name="frmForm"
+        @submit.prevent="insertBoard"
+      >
+        <v-simple-table style="width:500px; margin-left:auto; margin-right:auto;" dense>
           <tr>
             <th>작성자</th>
             <td>
@@ -23,7 +29,6 @@
                 name="name"
                 id="_name"
                 v-model="writer"
-                style="width:30%"
               />
             </td>
           </tr>
@@ -37,7 +42,6 @@
                 id="_title"
                 size="20"
                 v-model="title"
-                style="width:30%"
               />
             </td>
           </tr>
@@ -50,17 +54,17 @@
                 name="content"
                 id="_content"
                 size="30"
+                height="300"
                 v-model="content"
-                style="width:30%"
               />
             </td>
           </tr>
           <tr>
             <td colspan="2" style="height:50px; text-align:center;">
-              <button type="submit" name="button">글등록</button>
+              <v-btn type="submit" name="button">글등록</v-btn>
             </td>
           </tr>
-        </table>
+        </v-simple-table>
       </form>
     </div>
 
@@ -73,9 +77,9 @@
   </div>
 </template>
 <script>
-import http from '../http-common';
+import http from "../http-common";
 export default {
-  name: 'InsertBoard',
+  name: "InsertBoard",
   data() {
     return {
       info: null,
@@ -83,14 +87,14 @@ export default {
       errored: false,
       writer: null,
       title: null,
-      content: '',
-      submitted: false,
+      content: "",
+      submitted: false
     };
   },
   mounted() {
     http
-      .get('/insert')
-      .then((response) => (this.info = response.data))
+      .get("/insert")
+      .then(response => (this.info = response.data))
       .catch(() => {
         this.errored = true;
       })
@@ -98,35 +102,35 @@ export default {
   },
   methods: {
     insertBoard() {
-      if (this.writer == '') {
-        alert('글쓴이를 입력하세요.');
+      if (this.writer == "") {
+        alert("글쓴이를 입력하세요.");
         return;
       }
-      if (this.title == '') {
-        alert('제목을 선택하세요.');
+      if (this.title == "") {
+        alert("제목을 선택하세요.");
         return;
       }
-      if (this.title == '') {
-        alert('내용을 선택하세요.');
+      if (this.title == "") {
+        alert("내용을 선택하세요.");
         return;
       }
 
       http
-        .post('/insertBoard', {
+        .post("/insertBoard", {
           writer: this.writer,
           title: this.title,
-          content: this.content,
+          content: this.content
         })
-        .then((response) => {
-          if (response.data == 'success') {
-            alert('글등록 처리를 하였습니다.');
+        .then(response => {
+          if (response.data == "success") {
+            alert("글등록 처리를 하였습니다.");
           } else {
-            alert('글등록 처리를 하지 못했습니다.');
+            alert("글등록 처리를 하지 못했습니다.");
           }
         });
       this.submitted = true;
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1,23 +1,52 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="/">Happy House</b-navbar-brand>
+  <v-app-bar
+      app
+      color="white"
+      flat
+    >
+    <v-container class="py-0 fill-height">
+          <v-avatar
+            class="mr-10"
+            color="grey darken-1"
+            size="32"
+          ></v-avatar>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          <v-btn
+            v-for="menu in menuItems"
+            :key="menu"
+            :to="menu.path"
+            text
+          >
+            {{ menu.title }}
+          </v-btn>
 
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
-          <b-nav-item href="/apt">아파트정보</b-nav-item>
-          <b-nav-item href="/qnaboard">QnA 게시판</b-nav-item>
-          <b-nav-item href="/about">About</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-  </div>
+          <v-spacer></v-spacer>
+
+          <v-responsive max-width="260">
+            <v-text-field
+              dense
+              flat
+              hide-details
+              rounded
+              solo-inverted
+            ></v-text-field>
+          </v-responsive>
+        </v-container>
+  </v-app-bar>
 </template>
 
 <script>
 export default {
-  name: 'Header',
+  name: "Header",
+  data(){
+    return {
+      sidebar: false,
+      menuItems: [
+          { title: '아파트정보', path: '/apt'},
+          { title: 'QnA 게시판', path: '/qnaboard'},
+          { title: 'About', path: '/about'}
+     ]
+    }
+  },
 };
 </script>

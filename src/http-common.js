@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default axios.create({
-  baseURL: 'http://localhost:9999/vue/api/board',
+  baseURL: "http://localhost:9999/vue/api/board",
   headers: {
-    'Content-type': 'application/json',
-  },
+    "Content-type": "application/json"
+  }
 });

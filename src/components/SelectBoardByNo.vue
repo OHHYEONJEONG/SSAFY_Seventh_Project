@@ -1,12 +1,15 @@
 <template>
   <div>
     <h3>글 정보</h3>
-    <br>
-    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    <br />
+    <router-link class="btn btn-primary" to="/qnaboard"
+      >모든 글 보기</router-link
+    >
     |
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-    <br><br>
-    <table class="table table-striped table-bordered table-hover">
+    <br /><br />
+    <v-simple-table style="width:500px; margin-left:auto; margin-right:auto;" dense>
+     
       <tr>
         <td>글번호</td>
         <td v-html="article.no"></td>
@@ -34,37 +37,37 @@
           </button>
         </td>
       </tr>
-    </table>
+    </v-simple-table>
   </div>
 </template>
 
 <script>
-import http from '../http-common';
+import http from "../http-common";
 export default {
-  name: 'SelectBoardByNo',
-  props: ['no'],
+  name: "SelectBoardByNo",
+  props: ["no"],
   data() {
     return {
       upHere: false,
       article: {},
       loading: true,
-      errored: false,
+      errored: false
     };
   },
   methods: {
     updateArticle(did) {
-      this.$router.push('/update/' + did);
-    },
+      this.$router.push("/update/" + did);
+    }
   },
   mounted() {
     http
-      .get('/detail/' + this.no)
-      .then((response) => (this.article = response.data))
+      .get("/detail/" + this.no)
+      .then(response => (this.article = response.data))
       .catch(() => {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
-  },
+  }
 };
 </script>
 

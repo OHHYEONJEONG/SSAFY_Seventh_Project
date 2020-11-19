@@ -1,12 +1,17 @@
 <template>
   <div>
     <h3>사원정보</h3>
-    <br>
-    <router-link class="btn btn-primary" to="/qnaboard">모든 글 보기</router-link>
+    <br />
+    <router-link class="btn btn-primary" to="/qnaboard"
+      >모든 글 보기</router-link
+    >
     |
     <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
-    <br><br>
-    <table class="table table-striped table-bordered table-hover">
+    <br /><br />
+    
+    
+    <v-simple-table style="width:500px; margin-left:auto; margin-right:auto;border:1px solid black; border-collapse:collase;" dense>
+      
       <tr>
         <td>글번호</td>
         <td v-html="article.no"></td>
@@ -18,22 +23,20 @@
       <tr>
         <th>제목</th>
         <td>
-          <b-form-input
+          <input
             data-msg="제목"
             type="text"
             name="title"
             id="_title"
             size="20"
             v-model="article.title"
-            style="width:30%"
-          >
-          </b-form-input>
+          />
         </td>
       </tr>
       <tr>
         <th>내용</th>
         <td>
-          <b-form-input
+          <input
             data-msg="내용"
             type="text"
             name="content"
@@ -41,67 +44,69 @@
             size="30"
             v-model="article.content"
             style="width:100%; height:100px;"
-          >
-          </b-form-input>
+          />
         </td>
       </tr>
       <tr>
         <td colspan="2" style="height:50px; text-align:center;">
-          <button type="submit" name="button" @click="updateBoard">
+          <v-btn type="submit" name="button" @click="updateBoard">
             글수정
-          </button>
+          </v-btn>
         </td>
-      </tr>
-    </table>
+      </tr>    
+    </v-simple-table>
   </div>
 </template>
 
 <script>
-import http from '../http-common';
+import http from "../http-common";
 export default {
-  name: 'SelectBoardByNo',
-  props: ['no'],
+  name: "SelectBoardByNo",
+  props: ["no"],
   data() {
     return {
       upHere: false,
       article: {},
       loading: true,
-      errored: false,
+      errored: false
     };
   },
   methods: {
     updateBoard() {
-      if (this.article.title == '') {
-        alert('제목을 작성하세요.');
+      if (this.article.title == "") {
+        alert("제목을 작성하세요.");
         return;
       }
-      if (this.article.content == '') {
-        alert('내용을 작성하세요.');
+      if (this.article.content == "") {
+        alert("내용을 작성하세요.");
         return;
       }
 
-      http.put('/update/' + this.article.no, this.article).then((response) => {
-        if (response.data == 'success') {
-          alert('글등록 업데이트처리를 하였습니다.');
+      http.put("/update/" + this.article.no, this.article).then(response => {
+        if (response.data == "success") {
+          alert("글등록 업데이트처리를 하였습니다.");
         } else {
-          alert('글등록 업데이트처리를 하지 못했습니다.');
+          alert("글등록 업데이트처리를 하지 못했습니다.");
         }
       });
       this.submitted = true;
     },
     newCustomer() {
-      (this.submitted = false), (this.writer = null), (this.title = null), (this.content = null);
-    },
+      (this.submitted = false),
+        (this.writer = null),
+        (this.title = null),
+        (this.content = null);
+    }
   },
   mounted() {
     http
-      .get('/detail/' + this.no)
-      .then((response) => (this.article = response.data))
+      .get("/detail/" + this.no)
+      .then(response => (this.article = response.data))
       .catch(() => {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
-  },
+  }
 };
 </script>
 
