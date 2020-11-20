@@ -15,25 +15,32 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-center"
-                  v-for="(colname, index) in colnames"
-                  :key="index"
-                  v-html="colname">    
-              </th>
+              <th
+                class="text-center"
+                v-for="(colname, index) in colnames"
+                :key="index"
+                v-html="colname"
+              ></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="article in articles" :key="article.no">
-            <td v-html="article.no" @click="detailArticle(article.no)"></td>
-            <td v-html="article.writer" @click="detailArticle(article.no)"></td>
-            <td v-html="article.title" @click="detailArticle(article.no)"></td>
-            <td v-html="article.regtime"></td>
-            <td>
-              <button name="삭제" @click="deleteArticle(article.no)">
-                삭제
-              </button>
-            </td>
-          </tr>
+              <td v-html="article.no" @click="detailArticle(article.no)"></td>
+              <td
+                v-html="article.writer"
+                @click="detailArticle(article.no)"
+              ></td>
+              <td
+                v-html="article.title"
+                @click="detailArticle(article.no)"
+              ></td>
+              <td v-html="article.regtime"></td>
+              <td>
+                <button name="삭제" @click="deleteArticle(article.no)">
+                  삭제
+                </button>
+              </td>
+            </tr>
           </tbody>
         </template>
       </v-simple-table>
@@ -42,52 +49,52 @@
 </template>
 
 <script>
-import http from "../http-common";
+import http from '../http-common';
 export default {
-  name: "SelectBoard",
+  name: 'SelectBoard',
   data() {
     return {
-      colnames: ["글번호", "글쓴이", "제목", "시간"],
+      colnames: ['글번호', '글쓴이', '제목', '시간'],
       upHere: false,
       articles: [],
       loading: true,
-      errored: false
+      errored: false,
     };
   },
   methods: {
     detailArticle(did) {
-      this.$router.push("/detail/" + did);
+      this.$router.push('/board/detail/' + did);
     },
     retrieveArticle() {
       http
-        .get("/select")
-        .then(response => (this.articles = response.data))
+        .get('/board/select')
+        .then((response) => (this.articles = response.data))
         .catch(() => {
           this.errored = true;
         })
         .finally(() => (this.loading = false));
     },
     deleteArticle(did) {
-      alert(did + "가 삭제합니다.");
+      alert(did + '가 삭제합니다.');
       http
-        .delete("/delete/" + did)
-        .then(response => {
-          if (response.data == "success") {
-            alert("삭제처리를 하였습니다.");
+        .delete('/board/delete/' + did)
+        .then((response) => {
+          if (response.data == 'success') {
+            alert('삭제처리를 하였습니다.');
             this.retrieveArticle();
           } else {
-            alert("삭제처리를 하지 못했습니다.");
+            alert('삭제처리를 하지 못했습니다.');
           }
         })
         .catch(() => {
           this.errored = true;
         })
         .finally(() => (this.loading = false));
-    }
+    },
   },
   mounted() {
     this.retrieveArticle();
-  }
+  },
 };
 </script>
 
