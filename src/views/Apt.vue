@@ -53,25 +53,25 @@
         </v-select>
       </v-col>
       <v-col class="d-flex" cols="4" sm="4">
-        <v-select :items="items" label="Standard" dense></v-select>
+        <v-select
+          label="동"
+          v-bind:items="dongs"
+          v-model="selectDong"
+          item-text="dongName"
+          item-value="dongCode"
+          max-height="auto"
+          autocomplete
+          v-on:change="selectedDong"
+        >
+          <template slot="selection" slot-scope="data">
+            {{ data.item.dongName }}
+          </template>
+        </v-select>
       </v-col>
     </v-row>
-    <!-- vuetify 이용한 구글 맵-->
-    <GmapMap
-      :center="{ lat: 10, lng: 10 }"
-      :zoom="7"
-      map-type-id="terrain"
-      style="width: 500px; height: 300px"
-    >
-      <GmapMarker
-        :key="index"
-        v-for="(m, index) in markers"
-        :position="m.position"
-        :clickable="true"
-        :draggable="true"
-        @click="clickMarker"
-      />
-    </GmapMap>
+    <v-row>
+      <v-col><GoogleMap /></v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -79,6 +79,7 @@
 import SearchBar from '@/components/SearchBar.vue';
 import AptList from '@/components/AptList.vue';
 import AptDetail from '@/components/AptDetail.vue';
+import GoogleMap from '@/components/map/GoogleMap.vue';
 import http from '../http-common';
 import axios from 'axios';
 
@@ -94,6 +95,7 @@ export default {
     SearchBar,
     AptList,
     AptDetail,
+    GoogleMap,
   },
   data() {
     return {
@@ -102,8 +104,10 @@ export default {
       apts: [],
       selectSido: {},
       selectGugun: '',
+      selectDong: '',
       sidos: [],
       guguns: [],
+      dongs: [],
     };
   },
   mounted() {
@@ -163,15 +167,13 @@ export default {
         .finally(() => (this.loading = false));
     },
     selectedDong: function() {
-      alert(this.selectGugun);
-    },
-    clickMarker: function() {
-      // ----------MAP------------
-      this.$dialog.confirm({
-        text:
-          "What's your name? <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Natgeologo.svg/1200px-Natgeologo.svg.png' height=100/><input value='input'></input>",
-        title: 'Warning',
-      });
+      http
+        .get('/map/sido/gugun/' + this.selectGugun)
+        .then((response) => (this.dongs = response.data))
+        .catch(() => {
+          this.errored = true;
+        })
+        .finally(() => (this.loading = false));
     },
   },
 };
