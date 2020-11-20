@@ -1,18 +1,20 @@
 <template>
   <v-app id="app">
-      <Header/>
+    <Header />
+    <div style="height: 70px;"></div>
     <router-view />
   </v-app>
 </template>
 
 <script>
 import Header from './components/Header';
-
+// import Login from './views/Login';
 export default {
   name: 'App',
 
   components: {
     Header,
+    // Login,
   },
 
   data: () => ({
@@ -40,4 +42,3 @@ export default {
   color: #42b983;
 }
 </style>
-

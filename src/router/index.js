@@ -1,59 +1,85 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "@/views/Home.vue";
-import About from "@/views/About.vue";
-import Apt from "@/views/Apt.vue";
-import SelectBoard from "@/views/Board.vue";
-import InsertBoard from "@/components/InsertBoard.vue";
-import SelectBoardByNo from "@/components/SelectBoardByNo.vue";
-import UpdateBoard from "@/components/UpdateBoard.vue";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '@/views/Home.vue';
+import About from '@/views/About.vue';
+import Apt from '@/views/Apt.vue';
+import SelectBoard from '@/views/Board.vue';
+import Login from '@/views/Login.vue';
+import Me from '@/views/Me.vue';
+import store from '@/store';
+import InsertBoard from '@/components/InsertBoard.vue';
+import SelectBoardByNo from '@/components/SelectBoardByNo.vue';
+import UpdateBoard from '@/components/UpdateBoard.vue';
 
 Vue.use(VueRouter);
+// https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
+const requireAuth = () => (to, from, next) => {
+  const nextRoute = to.path;
 
+  if (store.getters.getAccessToken) {
+    return next();
+  } else next('/login' + nextRoute);
+};
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home
+    path: '/',
+    name: 'Home',
+    component: Home,
   },
   {
-    path: "/apt",
-    name: "Apt",
-    component: Apt
+    path: '/apt',
+    name: 'Apt',
+    component: Apt,
   },
   {
-    path: "/about",
-    name: "About",
-    component: About
+    path: '/about',
+    name: 'About',
+    component: About,
   },
   {
-    path: "/qnaboard",
-    name: "SelectBoard",
-    component: SelectBoard
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
   {
-    path: "/insert",
-    name: "InsertBoard",
-    component: InsertBoard
+    path: '/login/:nextRoute',
+    name: 'LoginNextRoute',
+    component: Login,
   },
   {
-    path: "/detail/:no",
-    name: "SelectBoardByNo",
+    path: '/me',
+    name: 'Me',
+    component: Me,
+    beforeEnter: requireAuth(),
+  },
+  {
+    path: '/qnaboard',
+    name: 'SelectBoard',
+    component: SelectBoard,
+  },
+  {
+    path: '/insert',
+    name: 'InsertBoard',
+    component: InsertBoard,
+  },
+  {
+    path: '/detail/:no',
+    name: 'SelectBoardByNo',
     component: SelectBoardByNo,
-    props: true
+    props: true,
   },
   {
-    path: "/update/:no",
-    name: "UpdateBoard",
+    path: '/update/:no',
+    name: 'UpdateBoard',
     component: UpdateBoard,
-    props: true
-  }
+    props: true,
+  },
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 export default router;
