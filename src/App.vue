@@ -8,13 +8,12 @@
 
 <script>
 import Header from './components/Header';
-// import Login from './views/Login';
+
 export default {
   name: 'App',
 
   components: {
     Header,
-    // Login,
   },
 
   data: () => ({

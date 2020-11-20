@@ -38,10 +38,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Header',
+
   data() {
     return {
+      isLogin: false,
       sidebar: false,
       menuItems: [
         { title: '아파트정보', path: '/apt' },
@@ -49,6 +53,17 @@ export default {
         { title: 'About', path: '/about' },
       ],
     };
+  },
+
+  computed: {
+    ...mapGetters(['getAccessToken', 'getUserId', 'getUserName']),
+  },
+  methods: {
+    onClickLogout() {
+      this.$store
+        .dispatch('LOGOUT')
+        .then(() => this.$router.replace('/').catch(() => {}));
+    },
   },
 };
 </script>
