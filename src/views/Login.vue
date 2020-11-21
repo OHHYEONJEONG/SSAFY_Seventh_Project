@@ -10,28 +10,26 @@
           align="left"
         >
           <v-form>
-            <v-text-field label="아이디:" label-for="userid">
-              <v-input
+            <v-form>
+              <v-text-field
                 id="userid"
                 v-model="user.userid"
-                required
-                placeholder="아이디 입력...."
-              ></v-input>
-            </v-text-field>
-            <v-text-field label="비밀번호:" label-for="userpwd">
-              <v-input
+                label="Input your ID"
+              ></v-text-field>
+            </v-form>
+            <v-form>
+              <v-text-field
                 type="password"
                 id="userpwd"
                 v-model="user.userpwd"
-                required
-                placeholder="비밀번호 입력...."
+                label="Input your PW"
                 @keypress.enter="login"
-              ></v-input>
-            </v-text-field>
-            <v-btn type="button" variant="primary" class="m-1" @click="login"
+              ></v-text-field>
+            </v-form>
+            <v-btn type="btn" variant="primary" class="m-1" @click="login"
               >로그인</v-btn
             >
-            <v-btn type="button" variant="success" class="m-1">회원가입</v-btn>
+            <v-btn type="btn" variant="success" class="m-1">회원가입</v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -64,6 +62,7 @@ export default {
   },
   methods: {
     login: function() {
+      alert('methods에서 출력: ' + this.user.userid);
       // LOGIN 액션 실행
       // 서버와 통신(axios)을 해 토큰값을 얻어야 하므로 Actions를 호출.
       this.$store
@@ -74,9 +73,3 @@ export default {
   },
 };
 </script>
-
-<style scope>
-#login-div {
-  text-align: center;
-}
-</style>

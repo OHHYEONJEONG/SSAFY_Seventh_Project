@@ -8,31 +8,16 @@
       </v-btn>
 
       <v-spacer></v-spacer>
+      <div v-if="getAccessToken">
+        <v-btn to="/me">마이페이지</v-btn>
+        <v-btn @click.prevent="onClickLogout">로그아웃</v-btn>
+      </div>
 
-      <v-collapse id="nav-collapse" is-nav>
-        <v-navbar-nav class="ml-auto" v-if="getAccessToken">
-          <v-nav-item
-            ><avatarvariant="primary"v-text="getUserId.charAt(0).toUpperCase()"/>
-            {{ getUserName }}({{ getUserId }})님 환영합니다.
-          </v-nav-item>
-          <v-nav-item
-            ><router-link to="/me">내정보보기</router-link></v-nav-item
-          >
-          <v-nav-item @click.prevent="onClickLogout">로그아웃</v-nav-item>
-          <!-- <v-nav-item href="/me">내정보보기</v-nav-item>
-            <v-nav-item href="/logout">로그아웃</v-nav-item> -->
-        </v-navbar-nav>
-        <v-navbar-nav class="ml-auto" v-else>
-          <v-nav-item>
-            <router-link to="/login">로그인</router-link></v-nav-item
-          >
-          <v-nav-item
-            ><router-link to="/join">회원가입</router-link></v-nav-item
-          >
-          <!-- <v-nav-item href="/login">로그인</v-nav-item>
-            <v-nav-item href="/join">회원가입</v-nav-item> -->
-        </v-navbar-nav>
-      </v-collapse>
+      <div v-else>
+        <v-btn v-for="login in loginIems" :key="login" :to="login.path" text>
+          {{ login.title }}
+        </v-btn>
+      </div>
     </v-container>
   </v-app-bar>
 </template>
@@ -51,6 +36,14 @@ export default {
         { title: '아파트정보', path: '/apt' },
         { title: 'QnA 게시판', path: '/qnaboard' },
         { title: 'About', path: '/about' },
+      ],
+      loginIems: [
+        { title: '로그인', path: '/login' },
+        { title: '회원가입', path: '/join' },
+      ],
+      logoutIems: [
+        { title: '로그아웃', path: '/logout' },
+        { title: '마이페이지', path: '/me' },
       ],
     };
   },

@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" data-app>
     <Header />
     <div style="height: 70px;"></div>
     <router-view />

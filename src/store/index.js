@@ -37,6 +37,7 @@ export default new Vuex.Store({
   },
   actions: {
     LOGIN(context, user) {
+      alert('스토어에서 출력: ' + user.userid);
       return axios
         .post(`${SERVER_URL}/user/confirm/login`, user)
         .then((response) => {
