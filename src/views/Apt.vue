@@ -11,14 +11,7 @@
       </v-col>
     </v-row>
     <search-bar @send-dong-code="sendDongCode" />
-    <v-row>
-      <v-col cols="5" align="left">
-        <apt-list :aptlist="apts" @select-apt="selectedApt" />
-      </v-col>
-      <v-col cols="7">
-        <apt-detail :apt="selectApt" />
-      </v-col>
-    </v-row>
+
     <v-row>
       <v-col class="d-flex" cols="4" sm="4">
         <v-select
@@ -29,7 +22,7 @@
           item-value="sidoCode"
           max-height="auto"
           autocomplete
-          v-on:change="selectedGugun"
+          v-on:change="selectedSido"
         >
           <template slot="selection" slot-scope="data">
             {{ data.item.sidoName }}
@@ -45,7 +38,7 @@
           item-value="gugunCode"
           max-height="auto"
           autocomplete
-          v-on:change="selectedDong"
+          v-on:change="selectedGugun"
         >
           <template slot="selection" slot-scope="data">
             {{ data.item.gugunName }}
@@ -71,6 +64,21 @@
     </v-row>
     <v-row>
       <v-col><GoogleMap /></v-col>
+      <v-col cols="5" align="left">
+        <apt-list
+          :aptlist="apts"
+          @select-apt="selectedApt"
+          :dongCode="selectDong"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="7">
+        <apt-detail :apt="selectApt" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <apt-around-info />
     </v-row>
   </v-container>
 </template>
@@ -80,6 +88,7 @@ import SearchBar from '@/components/SearchBar.vue';
 import AptList from '@/components/AptList.vue';
 import AptDetail from '@/components/AptDetail.vue';
 import GoogleMap from '@/components/map/GoogleMap.vue';
+import AptAroundInfo from '@/components/AptAroundInfo.vue';
 import http from '../http-common';
 import axios from 'axios';
 
@@ -96,6 +105,7 @@ export default {
     AptList,
     AptDetail,
     GoogleMap,
+    AptAroundInfo,
   },
   data() {
     return {
@@ -157,7 +167,7 @@ export default {
     selectedApt: function(apt) {
       this.selectApt = apt;
     },
-    selectedGugun: function() {
+    selectedSido: function() {
       http
         .get('/map/sido/' + this.selectSido)
         .then((response) => (this.guguns = response.data))
@@ -166,6 +176,17 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    selectedGugun: function() {
+      http
+        .get('/map/sido/gugun/' + this.selectGugun)
+        .then((response) => (this.dongs = response.data))
+        .catch(() => {
+          this.errored = true;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     selectedDong: function() {
       http
         .get('/map/sido/gugun/' + this.selectGugun)
@@ -173,7 +194,10 @@ export default {
         .catch(() => {
           this.errored = true;
         })
-        .finally(() => (this.loading = false));
+        .finally(() => {
+          this.loading = false;
+          this.sendDongCode(this.selectGugun);
+        });
     },
   },
 };

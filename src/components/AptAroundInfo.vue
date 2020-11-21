@@ -1,0 +1,56 @@
+<template>
+  <div class="around">
+    <v-card color="basil">
+      <v-card-title class="text-center justify-center py-6">
+        <h1 class="font-weight-bold display-3 basil--text">
+          주변환경정보
+        </h1>
+      </v-card-title>
+
+      <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+        <v-tab v-for="item in items" :key="item">
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+
+      <v-tabs-items v-model="tab">
+        <v-tab-item v-for="item in items" :key="item">
+          <v-card color="basil" flat>
+            <v-card-text v-if="tab == 0">환경</v-card-text>
+            <v-card-text v-else-if="tab == 1">안전</v-card-text>
+            <v-card-text v-else-if="tab == 2">편의</v-card-text>
+            <v-card-text v-else-if="tab == 3">코로나19</v-card-text>
+          </v-card>
+        </v-tab-item>
+      </v-tabs-items>
+    </v-card>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'AptAroundInfo',
+  data() {
+    return {
+      tab: null,
+      items: ['환경', '안전', '편의', '코로나19'],
+      text:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    };
+  },
+};
+</script>
+
+<style>
+/* Helper classes */
+.basil {
+  background-color: #fffbe6 !important;
+}
+.basil--text {
+  color: #356859 !important;
+}
+.around {
+  height: 100px;
+  background-color: #fffbe6 !important;
+}
+</style>
