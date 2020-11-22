@@ -46,7 +46,6 @@ export default new Vuex.Store({
           axios.defaults.headers.common[
             'auth-token'
           ] = `${response.data['auth-token']}`;
-          console.log(this.$store.state.accessToken);
         });
     },
     LOGOUT(context) {

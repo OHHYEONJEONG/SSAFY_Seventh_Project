@@ -67,6 +67,7 @@ export default {
       this.$store
         .dispatch('LOGIN', this.user)
         .then(() => this.$router.replace(`/${this.nextRoute}`))
+        // () => this.$router.replace('/').catch(() => {});
         .catch(({ message }) => (this.msg = message));
     },
   },

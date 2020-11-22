@@ -40,6 +40,14 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+    //로그인 시 로그인페이지에서 home 화면으로 이동
+    beforeEnter(to, from, next) {
+      if (store.getters.getAccessToken) {
+        next({ name: 'Home' });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/login/:nextRoute',
