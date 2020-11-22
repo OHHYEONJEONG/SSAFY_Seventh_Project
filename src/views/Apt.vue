@@ -1,101 +1,124 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h2>아파트 매매 정보</h2>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <p>*아파트 코드를 입력하세요*</p>
-      </v-col>
-    </v-row>
-    <search-bar @send-dong-code="sendDongCode" />
+  <div>
+    <v-container>
+      <v-row>
+        <v-col>
+          <h2>아파트 매매 정보</h2>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <p>*아파트 코드를 입력하세요*</p>
+        </v-col>
+      </v-row>
+      <search-bar @send-dong-code="sendDongCode" />
 
-    <v-row>
-      <v-col class="d-flex" cols="4" sm="4">
-        <v-select
-          label="시"
-          v-bind:items="sidos"
-          v-model="selectSido"
-          item-text="sidoName"
-          item-value="sidoCode"
-          max-height="auto"
-          autocomplete
-          v-on:change="selectedSido"
-        >
-          <template slot="selection" slot-scope="data">
-            {{ data.item.sidoName }}
-          </template>
-        </v-select>
-      </v-col>
-      <v-col class="d-flex" cols="4" sm="4">
-        <v-select
-          label="구/군"
-          v-bind:items="guguns"
-          v-model="selectGugun"
-          item-text="gugunName"
-          item-value="gugunCode"
-          max-height="auto"
-          autocomplete
-          v-on:change="selectedGugun"
-        >
-          <template slot="selection" slot-scope="data">
-            {{ data.item.gugunName }}
-          </template>
-        </v-select>
-      </v-col>
-      <v-col class="d-flex" cols="4" sm="4">
-        <v-select
-          label="동"
-          v-bind:items="dongs"
-          v-model="selectDong"
-          item-text="dongName"
-          item-value="dongName"
-          max-height="auto"
-          autocomplete
-          v-on:change="selectedDong"
-        >
-          <template slot="selection" slot-scope="data">
-            {{ data.item.dongName }}
-          </template>
-        </v-select>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col><GoogleMap /></v-col>
-      <v-col cols="5" align="left">
-        <apt-list
-          :aptlist="apts"
-          @select-apt="selectedApt"
-          :dongCode="selectDong"
-        />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="7">
-        <apt-detail :apt="selectApt" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="7"> </v-col>
-    </v-row>
-    <v-row>
-      <apt-around-info
-        :sido="selectSido"
-        :gugun="selectGugun"
-        :dong="selectDong"
-        :envs="envs"
-      />
-    </v-row>
-  </v-container>
+      <!-- 시,군구,동 별 검색 -->
+      <v-row>
+        <v-col class="d-flex" cols="4" sm="4">
+          <v-select
+            label="시"
+            v-bind:items="sidos"
+            v-model="selectSido"
+            item-text="sidoName"
+            item-value="sidoCode"
+            max-height="auto"
+            autocomplete
+            v-on:change="selectedSido"
+          >
+            <template slot="selection" slot-scope="data">
+              {{ data.item.sidoName }}
+            </template>
+          </v-select>
+        </v-col>
+        <v-col class="d-flex" cols="4" sm="4">
+          <v-select
+            label="구/군"
+            v-bind:items="guguns"
+            v-model="selectGugun"
+            item-text="gugunName"
+            item-value="gugunCode"
+            max-height="auto"
+            autocomplete
+            v-on:change="selectedGugun"
+          >
+            <template slot="selection" slot-scope="data">
+              {{ data.item.gugunName }}
+            </template>
+          </v-select>
+        </v-col>
+        <v-col class="d-flex" cols="4" sm="4">
+          <v-select
+            label="동"
+            v-bind:items="dongs"
+            v-model="selectDong"
+            item-text="dongName"
+            item-value="dongName"
+            max-height="auto"
+            autocomplete
+            v-on:change="selectedDong"
+          >
+            <template slot="selection" slot-scope="data">
+              {{ data.item.dongName }}
+            </template>
+          </v-select>
+        </v-col>
+      </v-row>
+      <!-- MAP and Apt List-->
+      <v-row>
+        <h3>총 {{ apts.length }} 개의 결과물이 있습니다.</h3>
+      </v-row>
+      <v-row>
+        <v-col cols="6"
+          ><KakaoMap
+            :si="sidoName"
+            :gugun="gugunName"
+            :dong="dongCode"
+            :aptlist="apts"
+        /></v-col>
+        <v-col cols="6" align="left">
+          <apt-list
+            :aptlist="apts"
+            @select-apt="selectedApt"
+            :dongCode="selectDong"
+          />
+        </v-col>
+      </v-row>
+
+      <!-- apt 상세정보 -->
+      <v-row>
+        <v-col cols="12">
+          <div id="aptdetail">
+            <h2>아파트 상세정보</h2>
+            <v-row>
+              <v-col cols="4"></v-col>
+              <v-col cols="4">
+                <apt-detail :apt="selectApt" />
+              </v-col>
+              <v-col cols="4"></v-col>
+            </v-row>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" align="center">
+          <apt-around-info
+            :sido="selectSido"
+            :gugun="selectGugun"
+            :dong="selectDong"
+            :envs="envs"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import SearchBar from '@/components/SearchBar.vue';
 import AptList from '@/components/AptList.vue';
 import AptDetail from '@/components/AptDetail.vue';
-import GoogleMap from '@/components/map/GoogleMap.vue';
+import KakaoMap from '@/components/map/KakaoMap.vue';
 import AptAroundInfo from '@/components/AptAroundInfo.vue';
 import http from '../http-common';
 import axios from 'axios';
@@ -112,7 +135,7 @@ export default {
     SearchBar,
     AptList,
     AptDetail,
-    GoogleMap,
+    KakaoMap,
     AptAroundInfo,
   },
   data() {
@@ -140,11 +163,6 @@ export default {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
-  },
-  updated() {
-    console.log(
-      this.selectSido + ' ' + this.selectGugun + ' ' + this.selectDong
-    );
   },
   methods: {
     sendDongCode(dongCode) {
@@ -174,7 +192,6 @@ export default {
           params,
         })
         .then((response) => {
-          console.log(response);
           this.apts = response.data.response.body.items.item;
         })
         .catch((error) => {
@@ -214,7 +231,7 @@ export default {
           this.errored = true;
         })
         .finally(() => {
-          console.log(this.sidoName);
+          this.loading = false;
         });
       http // 구군코드로 구군이름 얻어오고
         .get('/map/getGugunName/' + this.selectGugun)
@@ -238,11 +255,18 @@ export default {
             .catch(() => {
               this.errored = true;
             })
-            .finally(() => console.log(this.envs));
+            .finally(() => (this.loading = false));
         });
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+#aptdetail {
+  align-content: center;
+  height: 600px;
+  width: 100%;
+  border: 1px solid black;
+}
+</style>

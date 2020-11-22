@@ -19,7 +19,14 @@
             <v-card-text v-if="tab == 0">
               <env-info :sido="sido" :gugun="gugun" :dong="dong" :envs="envs" />
             </v-card-text>
-            <v-card-text v-else-if="tab == 1">안전</v-card-text>
+            <v-card-text v-else-if="tab == 1">
+              <store-info
+                :sido="sido"
+                :gugun="gugun"
+                :dong="dong"
+                :envs="envs"
+              />
+            </v-card-text>
             <v-card-text v-else-if="tab == 2">편의</v-card-text>
             <v-card-text v-else-if="tab == 3">코로나19</v-card-text>
           </v-card>
@@ -31,11 +38,13 @@
 
 <script>
 import EnvInfo from '@/components/apt_aroundinfo/EnvInfo.vue';
+import StoreInfo from '@/components/apt_aroundinfo/StoreInfo.vue';
 export default {
   name: 'AptAroundInfo',
   props: ['sido', 'gugun', 'dong', 'envs'],
   components: {
     EnvInfo,
+    StoreInfo,
   },
   data() {
     return {
@@ -43,14 +52,15 @@ export default {
       items: ['환경', '안전', '편의', '코로나19'],
     };
   },
-  updated() {
-    console.log('APTAROUND' + this.sido + ' ' + this.gugun + ' ' + this.dong);
-  },
 };
 </script>
 
 <style>
 /* Helper classes */
+.around {
+  width: 100%;
+  height: 500px;
+}
 .basil {
   background-color: #fffbe6 !important;
 }

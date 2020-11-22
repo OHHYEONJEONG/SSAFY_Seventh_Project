@@ -1,17 +1,14 @@
 <template>
   <div>
-    <v-card elevation="16" max-width="400" class="mx-auto">
-      <v-virtual-scroll :items="aptlist" height="300" item-height="64">
-        <apt-list-item
-          v-for="(apt, index) in aptlist"
-          :key="index"
-          :apt="apt"
-          @select-apt="selectApt"
-        />
+    <v-card elevation="16" max-width="500" class="mx-auto">
+      <v-virtual-scroll :items="aptlist" height="500" item-height="100">
+        <template v-slot:default="{ item }">
+          <v-list-item>
+            <apt-list-item :key="item" :apt="item" @select-apt="selectApt" />
+          </v-list-item>
+        </template>
       </v-virtual-scroll>
     </v-card>
-
-    <p>{{ dongCode }}</p>
   </div>
 </template>
 
@@ -37,13 +34,16 @@ export default {
       this.$emit('select-apt', apt);
     },
   },
-  computed() {
-    console.log('created');
+  updated() {
+    console.log('----APTLIST-----');
+    console.log(this.dongCode);
     this.aptlist.forEach((element) => {
-      if (element.법정동읍면동코드 == this.dongCode) {
-        this.aptlistBydong.push(element);
+      console.log(element.법정동);
+      if (element.법정동 == ' ' + this.dongCode) {
+        console.log('들어감');
       }
     });
+    console.log('------------------');
   },
 };
 </script>

@@ -1,10 +1,15 @@
 <template>
   <div>
-    <v-simple-table
+    <v-data-table
+      :headers="headers"
+      :items="envs"
+      :items-per-page="5"
+      class="elevation-1"
+    ></v-data-table>
+    <!-- <v-simple-table
       style="width:500px; margin-left:auto; margin-right:auto;"
       dense
     >
-      {{ envs }}
       <template v-slot:default>
         <thead>
           <tr>
@@ -23,7 +28,7 @@
           </tr>
         </tbody>
       </template>
-    </v-simple-table>
+    </v-simple-table> -->
   </div>
 </template>
 
@@ -34,6 +39,17 @@ export default {
   data() {
     return {
       sidoname: '',
+      headers: [
+        {
+          text: '업체명',
+          align: 'start',
+          sortable: false,
+          value: 'name',
+        },
+        { text: '업종명', value: 'sname' },
+        { text: '점검사항', value: 'chkspec' },
+        { text: '주소', value: 'locaddr' },
+      ],
     };
   },
 };
