@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     login: function() {
-      alert('methods에서 출력: ' + this.user.userid);
       // LOGIN 액션 실행
       // 서버와 통신(axios)을 해 토큰값을 얻어야 하므로 Actions를 호출.
       this.$store
