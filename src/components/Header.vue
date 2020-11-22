@@ -3,7 +3,12 @@
     <v-container class="py-0 fill-height">
       <v-avatar class="mr-10" color="grey darken-1" size="32"></v-avatar>
 
-      <v-btn v-for="menu in menuItems" :key="menu" :to="menu.path" text>
+      <v-btn
+        v-for="(menu, index) in menuItems"
+        :key="index"
+        :to="menu.path"
+        text
+      >
         {{ menu.title }}
       </v-btn>
 
@@ -14,7 +19,12 @@
       </div>
 
       <div v-else>
-        <v-btn v-for="login in loginIems" :key="login" :to="login.path" text>
+        <v-btn
+          v-for="(login, index) in loginIems"
+          :key="index"
+          :to="login.path"
+          text
+        >
           {{ login.title }}
         </v-btn>
       </div>
@@ -40,10 +50,6 @@ export default {
       loginIems: [
         { title: '로그인', path: '/login' },
         { title: '회원가입', path: '/join' },
-      ],
-      logoutIems: [
-        { title: '로그아웃', path: '/logout' },
-        { title: '마이페이지', path: '/me' },
       ],
     };
   },

@@ -42,17 +42,17 @@
     <div>
       <v-row>
         <v-col>
-          <v-dropdown text="시">
+          <!-- <v-dropdown text="시">
             <v-dropdown-item href="#">서울특별시</v-dropdown-item>
             <v-dropdown-item href="#">대전광역시</v-dropdown-item>
             <v-dropdown-item href="#">부산광역시</v-dropdown-item>
-          </v-dropdown>
+          </v-dropdown> -->
         </v-col>
         <v-col>
-          <v-dropdown text="군/구"> </v-dropdown>
+          <!-- <v-dropdown text="군/구"> </v-dropdown> -->
         </v-col>
         <v-col>
-          <v-dropdown text="동"> </v-dropdown>
+          <!-- <v-dropdown text="동"> </v-dropdown> -->
         </v-col>
       </v-row>
     </div>
