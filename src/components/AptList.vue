@@ -1,12 +1,7 @@
 <template>
   <div>
     <v-card elevation="16" max-width="400" class="mx-auto">
-      <v-virtual-scroll
-        :items="aptlist"
-        :bench="benched"
-        height="300"
-        item-height="64"
-      >
+      <v-virtual-scroll :items="aptlist" height="300" item-height="64">
         <apt-list-item
           v-for="(apt, index) in aptlist"
           :key="index"

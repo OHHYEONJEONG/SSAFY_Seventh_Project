@@ -51,7 +51,7 @@
           v-bind:items="dongs"
           v-model="selectDong"
           item-text="dongName"
-          item-value="dongCode"
+          item-value="dongName"
           max-height="auto"
           autocomplete
           v-on:change="selectedDong"
@@ -78,7 +78,15 @@
       </v-col>
     </v-row>
     <v-row>
-      <apt-around-info />
+      <v-col cols="7"> </v-col>
+    </v-row>
+    <v-row>
+      <apt-around-info
+        :sido="selectSido"
+        :gugun="selectGugun"
+        :dong="selectDong"
+        :envs="envs"
+      />
     </v-row>
   </v-container>
 </template>
@@ -112,12 +120,16 @@ export default {
       dongCode: '',
       selectApt: '',
       apts: [],
-      selectSido: {},
+      selectSido: '',
       selectGugun: '',
       selectDong: '',
       sidos: [],
       guguns: [],
       dongs: [],
+      sidoName: '',
+      gugunName: '',
+      dongName: '',
+      envs: [],
     };
   },
   mounted() {
@@ -128,6 +140,11 @@ export default {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
+  },
+  updated() {
+    console.log(
+      this.selectSido + ' ' + this.selectGugun + ' ' + this.selectDong
+    );
   },
   methods: {
     sendDongCode(dongCode) {
@@ -188,15 +205,40 @@ export default {
         });
     },
     selectedDong: function() {
-      http
-        .get('/map/sido/gugun/' + this.selectGugun)
-        .then((response) => (this.dongs = response.data))
+      // 동까지 골라지면
+      this.sendDongCode(this.selectGugun);
+      http // 시코드로 시이름 구하고
+        .get('/map/getSiName/' + this.selectSido)
+        .then((response) => (this.sidoName = response.data))
         .catch(() => {
           this.errored = true;
         })
         .finally(() => {
-          this.loading = false;
-          this.sendDongCode(this.selectGugun);
+          console.log(this.sidoName);
+        });
+      http // 구군코드로 구군이름 얻어오고
+        .get('/map/getGugunName/' + this.selectGugun)
+        .then((response) => (this.gugunName = response.data))
+        .catch(() => {
+          this.errored = true;
+        })
+        .finally(() => {
+          console.log(this.gugunName);
+          console.log(this.selectDong);
+          http // 해당 동의 환경정보 가져옴
+            .get(
+              '/aptaround/env/' +
+                this.sidoName +
+                ' ' +
+                this.gugunName +
+                '/' +
+                this.selectDong
+            )
+            .then((response) => (this.envs = response.data))
+            .catch(() => {
+              this.errored = true;
+            })
+            .finally(() => console.log(this.envs));
         });
     },
   },

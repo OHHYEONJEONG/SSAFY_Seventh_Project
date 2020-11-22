@@ -16,7 +16,9 @@
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
           <v-card color="basil" flat>
-            <v-card-text v-if="tab == 0">환경</v-card-text>
+            <v-card-text v-if="tab == 0">
+              <env-info :sido="sido" :gugun="gugun" :dong="dong" :envs="envs" />
+            </v-card-text>
             <v-card-text v-else-if="tab == 1">안전</v-card-text>
             <v-card-text v-else-if="tab == 2">편의</v-card-text>
             <v-card-text v-else-if="tab == 3">코로나19</v-card-text>
@@ -28,15 +30,21 @@
 </template>
 
 <script>
+import EnvInfo from '@/components/apt_aroundinfo/EnvInfo.vue';
 export default {
   name: 'AptAroundInfo',
+  props: ['sido', 'gugun', 'dong', 'envs'],
+  components: {
+    EnvInfo,
+  },
   data() {
     return {
       tab: null,
       items: ['환경', '안전', '편의', '코로나19'],
-      text:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     };
+  },
+  updated() {
+    console.log('APTAROUND' + this.sido + ' ' + this.gugun + ' ' + this.dong);
   },
 };
 </script>
