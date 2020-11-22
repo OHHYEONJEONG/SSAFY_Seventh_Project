@@ -87,26 +87,25 @@
 
 <script>
 import axios from 'axios';
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   data() {
     return {
-      user: null,
+      user: '',
     };
   },
   created() {
+    // 가져온 Token값을 header에 넣어주는 작업 실시.
+    axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
     axios
       .get(`${SERVER_URL}/user/info`)
       .then((response) => {
         this.user = response.data.user;
       })
       .catch(() => {
-        this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
+        // this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
       });
   },
 };

@@ -55,6 +55,8 @@
           <!-- <v-dropdown text="동"> </v-dropdown> -->
         </v-col>
       </v-row>
+
+      <h3>{{ $store.state.accessToken }}</h3>
     </div>
   </div>
 </template>
