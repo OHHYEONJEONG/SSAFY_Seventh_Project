@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
 
+import axios from 'axios';
+import createPersistedState from 'vuex-persistedstate';
 Vue.use(Vuex);
 
 // const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const SERVER_URL = 'http://localhost:9999/happyhouse/api';
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     accessToken: null,
     userId: '',
@@ -45,6 +47,7 @@ export default new Vuex.Store({
           axios.defaults.headers.common[
             'auth-token'
           ] = `${response.data['auth-token']}`;
+          console.log(this.$store.state.accessToken);
         });
     },
     LOGOUT(context) {
