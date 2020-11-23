@@ -5,11 +5,15 @@
     <br />
     <h3>글 작성하기</h3>
     <br />
-    <router-link class="btn btn-primary" to="/qnaboard"
-      >모든 글 보기</router-link
+    <v-btn
+      id="subtitle"
+      v-for="(sub, index) in subnav"
+      :key="index"
+      :to="sub.path"
+      text
     >
-    |
-    <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
+      {{ sub.title }}
+    </v-btn>
     <br /><br />
     <div v-if="!submitted">
       <form
@@ -88,6 +92,11 @@ export default {
       title: null,
       content: '',
       user: '',
+      subnav: [
+        { title: '모든 글 보기', path: '/qnaboard' },
+        { title: '글 등록하기 ', path: '/insert' },
+      ],
+
       submitted: false,
     };
   },
@@ -142,4 +151,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#subtitle {
+  float: right;
+}
+</style>
