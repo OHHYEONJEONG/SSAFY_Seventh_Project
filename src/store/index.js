@@ -41,10 +41,19 @@ export default new Vuex.Store({
       return axios
         .post(`${SERVER_URL}/user/confirm/login`, user)
         .then((response) => {
-          context.commit('LOGIN', response.data);
-          axios.defaults.headers.common[
-            'auth-token'
-          ] = `${response.data['auth-token']}`;
+          if (`${response.data['status']}` == 'true') {
+            alert(
+              '반갑습니다!' +
+                `${response.data['user-name']}` +
+                '님! 당신의 Happyhouse입니다.'
+            );
+            context.commit('LOGIN', response.data);
+            axios.defaults.headers.common[
+              'auth-token'
+            ] = `${response.data['auth-token']}`;
+          } else {
+            alert('올바른 계정정보를 입력하세요.');
+          }
         });
     },
     LOGOUT(context) {
