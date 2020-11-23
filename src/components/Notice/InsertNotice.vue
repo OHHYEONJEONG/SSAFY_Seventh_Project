@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h3></h3>
-    <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
-    <br />
-    <h3>글 작성하기</h3>
+    <h3>공지사항 작성하기</h3>
     <br />
     <v-btn
       id="subtitle"
@@ -73,7 +70,9 @@
       <h4>성공적으로 글등록이 완료하였습니다!</h4>
       <router-link class="btn btn-primary" to="/insert">새 글 작성</router-link>
       |
-      <router-link class="btn btn-primary" to="/qnaboard">목록으로</router-link>
+      <router-link class="btn btn-primary" to="/noticeboard"
+        >목록으로</router-link
+      >
     </div>
   </div>
 </template>
@@ -93,7 +92,7 @@ export default {
       content: '',
       user: '',
       subnav: [
-        { title: '모든 글 보기', path: '/qnaboard' },
+        { title: '모든 글 보기', path: '/noticeboard' },
         { title: '글 등록하기 ', path: '/insert' },
       ],
 
@@ -133,7 +132,7 @@ export default {
       }
 
       http
-        .post('/qnaboard/qinsertBoard', {
+        .post('/noticeboard/qinsertBoard', {
           writer: this.user.userid,
           title: this.title,
           content: this.content,

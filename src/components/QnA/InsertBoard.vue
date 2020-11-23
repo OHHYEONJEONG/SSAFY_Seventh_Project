@@ -1,9 +1,6 @@
 <template>
   <div>
-    <h3></h3>
-    <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
-    <br />
-    <h3>글 작성하기</h3>
+    <h3>QnA 등록하기</h3>
     <br />
     <v-btn
       id="subtitle"

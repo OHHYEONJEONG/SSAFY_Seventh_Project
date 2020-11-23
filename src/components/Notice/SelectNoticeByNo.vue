@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>글 정보</h3>
+    <h3>공지사항 상세보기</h3>
     <br />
     <v-btn
       id="subtitle"
@@ -63,7 +63,7 @@ export default {
       article: {},
       user: '',
       subnav: [
-        { title: '모든 글 보기', path: '/qnaboard' },
+        { title: '모든 글 보기', path: '/noticeboard' },
         { title: '글 등록하기 ', path: '/insert' },
       ],
 
@@ -78,7 +78,7 @@ export default {
   },
   mounted() {
     http
-      .get('/qnaboard/qdetail/' + this.no)
+      .get('/noticeboard/qdetail/' + this.no)
       .then((response) => (this.article = response.data))
       .catch(() => {
         this.errored = true;

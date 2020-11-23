@@ -1,17 +1,21 @@
 <template>
   <div>
-    <h3>글 목록</h3>
-    <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
+    <h3>공지사항</h3>
     <br />
-    <v-btn
-      id="subtitle"
-      v-for="(sub, index) in subnav"
-      :key="index"
-      :to="sub.path"
-      text
-    >
-      {{ sub.title }}
-    </v-btn>
+    <template v-if="user.no == 1">
+      <v-btn
+        id="subtitle"
+        v-for="(sub, index) in subnav"
+        :key="index"
+        :to="sub.path"
+        text
+      >
+        {{ sub.title }}
+      </v-btn>
+    </template>
+    <template v-else>
+      <v-btn id="subtitle" :to="elsenav.path">{{ elsenav.title }}</v-btn>
+    </template>
     <br />
     <br />
     <div>
@@ -22,7 +26,7 @@
               <th class="text-left" id="no">글번호</th>
               <th class="text-left" id="writer">글쓴이</th>
               <th class="text-left" id="title">제목</th>
-              <th class="text-left" id="comment_count">댓글</th>
+              <th class="text-left" id="comment_count">조회수</th>
               <th class="text-left" id="regtime">등록일</th>
               <th class="text-left" id="check">비고</th>
             </tr>
@@ -38,7 +42,7 @@
                 <v-btn name="상세보기" @click="detailArticle(article.no)">
                   상세보기
                 </v-btn>
-                <template v-if="user.userid == article.writer">
+                <template v-if="user.no == 1">
                   <v-btn name="삭제" @click="deleteArticle(article.no)">
                     삭제
                   </v-btn>
@@ -65,9 +69,10 @@ export default {
       articles: [],
       user: '',
       subnav: [
-        { title: '모든 글 보기', path: '/qnaboard' },
+        { title: '모든 글 보기', path: '/noticeboard' },
         { title: '글 등록하기 ', path: '/insert' },
       ],
+      elsenav: { title: '공지사항 전체보기', path: '/noticeboard' },
       loading: true,
       errored: false,
     };
@@ -78,7 +83,7 @@ export default {
     },
     retrieveArticle() {
       http
-        .get('/qnaboard/qselect')
+        .get('/noticeboard/qselect')
         .then((response) => (this.articles = response.data))
         .catch(() => {
           this.errored = true;
@@ -88,7 +93,7 @@ export default {
     deleteArticle(did) {
       alert(did + '가 삭제합니다.');
       http
-        .delete('/qnaboard/qdelete/' + did)
+        .delete('/noticeboard/qdelete/' + did)
         .then((response) => {
           if (response.data == 'success') {
             alert('삭제처리를 하였습니다.');

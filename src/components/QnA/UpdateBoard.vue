@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>사원정보</h3>
+    <h3>QnA 수정하기</h3>
     <br />
     <v-btn
       id="subtitle"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>사원정보</h3>
+    <h3>공지사항 수정</h3>
     <br />
     <v-btn
       id="subtitle"
@@ -72,7 +72,7 @@ export default {
       upHere: false,
       article: {},
       subnav: [
-        { title: '모든 글 보기', path: '/qnaboard' },
+        { title: '모든 글 보기', path: '/noticeboard' },
         { title: '글 등록하기 ', path: '/insert' },
       ],
 
@@ -90,11 +90,11 @@ export default {
         alert('내용을 작성하세요.');
         return;
       } else {
-        this.$router.push('/qnaboard/');
+        this.$router.push('/noticeboard/');
       }
 
       http
-        .put('/qnaboard/qupdate/' + this.article.no, this.article)
+        .put('/noticeboard/qupdate/' + this.article.no, this.article)
         .then((response) => {
           if (response.data == 'success') {
             alert('글등록 업데이트처리를 하였습니다.');
@@ -113,7 +113,7 @@ export default {
   },
   mounted() {
     http
-      .get('/qnaboard/qdetail/' + this.no)
+      .get('/noticeboard/qdetail/' + this.no)
       .then((response) => (this.article = response.data))
       .catch(() => {
         this.errored = true;
