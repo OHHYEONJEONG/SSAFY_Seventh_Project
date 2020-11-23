@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     detailArticle(did) {
-      this.$router.push('/qnaboard/detail/' + did);
+      this.$router.push('/detail/' + did);
     },
     retrieveArticle() {
       http
