@@ -7,9 +7,9 @@ import SelectBoard from '@/views/Board.vue';
 import Login from '@/views/Login.vue';
 import Me from '@/views/Me.vue';
 import store from '@/store';
-import InsertBoard from '@/components/InsertBoard.vue';
-import SelectBoardByNo from '@/components/SelectBoardByNo.vue';
-import UpdateBoard from '@/components/UpdateBoard.vue';
+import InsertBoard from '@/components/QnA/InsertBoard.vue';
+import SelectBoardByNo from '@/components/QnA/SelectBoardByNo.vue';
+import UpdateBoard from '@/components/QnA/UpdateBoard.vue';
 
 Vue.use(VueRouter);
 // https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
