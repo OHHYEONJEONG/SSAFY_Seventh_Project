@@ -3,9 +3,15 @@
     <h3>글 목록</h3>
     <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
     <br />
-    <v-btn><router-link to="/qnaboard">모든 글 보기</router-link></v-btn>
-    |
-    <v-btn><router-link to="/insert">글 등록하기 </router-link></v-btn>
+    <v-btn
+      id="subtitle"
+      v-for="(sub, index) in subnav"
+      :key="index"
+      :to="sub.path"
+      text
+    >
+      {{ sub.title }}
+    </v-btn>
     <br />
     <br />
     <div>
@@ -58,6 +64,10 @@ export default {
       upHere: false,
       articles: [],
       user: '',
+      subnav: [
+        { title: '모든 글 보기', path: '/qnaboard' },
+        { title: '글 등록하기 ', path: '/insert' },
+      ],
       loading: true,
       errored: false,
     };
@@ -130,5 +140,8 @@ export default {
 }
 #check {
   width: 20%;
+}
+#subtitle {
+  float: right;
 }
 </style>
