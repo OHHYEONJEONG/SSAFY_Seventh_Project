@@ -46,7 +46,7 @@ export default {
       menuItems: [
         { title: '아파트정보', path: '/apt' },
         { title: 'QnA 게시판', path: '/qnaboard' },
-        { title: 'About', path: '/about' },
+        { title: 'Notice', path: '/notice' },
       ],
       loginIems: [
         { title: '로그인', path: '/login' },

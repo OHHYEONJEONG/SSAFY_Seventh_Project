@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
 import Apt from '@/views/Apt.vue';
 import SelectBoard from '@/views/Board.vue';
 import Login from '@/views/Login.vue';
+import Notice from '@/views/Notice.vue';
 import Me from '@/views/Me.vue';
 import store from '@/store';
 import InsertBoard from '@/components/QnA/InsertBoard.vue';
 import SelectBoardByNo from '@/components/QnA/SelectBoardByNo.vue';
 import UpdateBoard from '@/components/QnA/UpdateBoard.vue';
+import InsertNotice from '@/components/Notice/InsertNotice.vue';
+import SelectNoticeByNo from '@/components/Notice/SelectNoticeByNo.vue';
+import UpdateNotice from '@/components/Notice/UpdateNotice.vue';
 
 Vue.use(VueRouter);
 // https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
@@ -32,11 +35,6 @@ const routes = [
     component: Apt,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About,
-  },
-  {
     path: '/login',
     name: 'Login',
     component: Login,
@@ -53,6 +51,28 @@ const routes = [
     path: '/login/:nextRoute',
     name: 'LoginNextRoute',
     component: Login,
+  },
+  {
+    path: '/notice',
+    name: 'Notice',
+    component: Notice,
+  },
+  {
+    path: '/insertNotice',
+    name: 'InsertNotice',
+    component: InsertNotice,
+  },
+  {
+    path: '/detailNotice/:no',
+    name: 'SelectNoticeByNo',
+    component: SelectNoticeByNo,
+    props: true,
+  },
+  {
+    path: '/updateNotice/:no',
+    name: 'UpdateNotice',
+    component: UpdateNotice,
+    props: true,
   },
   {
     path: '/me',
