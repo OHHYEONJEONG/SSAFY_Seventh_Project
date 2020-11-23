@@ -19,23 +19,20 @@
         name="frmForm"
         @submit.prevent="insertBoard"
       >
-        <v-simple-table style="width:500px; margin-left:auto; margin-right:auto;" dense>
+        <v-simple-table
+          style="width:500px; margin-left:auto; margin-right:auto;"
+          dense
+        >
           <tr>
             <th>작성자</th>
             <td>
-              <input
-                data-msg="이름"
-                type="text"
-                name="name"
-                id="_name"
-                v-model="writer"
-              />
+              {{ user.userid }}
             </td>
           </tr>
           <tr>
             <th>제목</th>
             <td>
-              <input
+              <v-text-field
                 data-msg="제목"
                 type="text"
                 name="title"
@@ -48,7 +45,7 @@
           <tr>
             <th>내용</th>
             <td>
-              <input
+              <v-text-field
                 data-msg="내용"
                 type="text"
                 name="content"
@@ -77,9 +74,11 @@
   </div>
 </template>
 <script>
-import http from "../http-common";
+import http from '../http-common';
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
-  name: "InsertBoard",
+  name: 'InsertBoard',
   data() {
     return {
       info: null,
@@ -87,50 +86,59 @@ export default {
       errored: false,
       writer: null,
       title: null,
-      content: "",
-      submitted: false
+      content: '',
+      user: '',
+      submitted: false,
     };
   },
   mounted() {
     http
-      .get("/insert")
-      .then(response => (this.info = response.data))
+      .get('/insert')
+      .then((response) => (this.info = response.data))
       .catch(() => {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
   },
+  created() {
+    // 가져온 Token값을 header에 넣어주는 작업 실시.
+    axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
+    axios
+      .get(`${SERVER_URL}/user/info`)
+      .then((response) => {
+        this.user = response.data.user;
+      })
+      .catch(() => {
+        // this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
+      });
+  },
   methods: {
     insertBoard() {
-      if (this.writer == "") {
-        alert("글쓴이를 입력하세요.");
+      if (this.title == '') {
+        alert('제목을 선택하세요.');
         return;
       }
-      if (this.title == "") {
-        alert("제목을 선택하세요.");
-        return;
-      }
-      if (this.title == "") {
-        alert("내용을 선택하세요.");
+      if (this.title == '') {
+        alert('내용을 선택하세요.');
         return;
       }
 
       http
-        .post("/insertBoard", {
-          writer: this.writer,
+        .post('/qnaboard/qinsertBoard', {
+          writer: this.user.userid,
           title: this.title,
-          content: this.content
+          content: this.content,
         })
-        .then(response => {
-          if (response.data == "success") {
-            alert("글등록 처리를 하였습니다.");
+        .then((response) => {
+          if (response.data == 'success') {
+            alert('글등록 처리를 하였습니다.');
           } else {
-            alert("글등록 처리를 하지 못했습니다.");
+            alert('글등록 처리를 하지 못했습니다.');
           }
         });
       this.submitted = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

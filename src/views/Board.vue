@@ -3,42 +3,40 @@
     <h3>글 목록</h3>
     <p>*글번호, 글쓴이, 제목 클릭 시 상세정보 조회*</p>
     <br />
-    <router-link class="btn btn-primary" to="/qnaboard"
-      >모든 글 보기</router-link
-    >
+    <v-btn><router-link to="/qnaboard">모든 글 보기</router-link></v-btn>
     |
-    <router-link class="btn btn-primary" to="/insert">글 등록하기 </router-link>
+    <v-btn><router-link to="/insert">글 등록하기 </router-link></v-btn>
     <br />
     <br />
     <div>
-      <v-simple-table>
+      <v-simple-table class="table">
         <template v-slot:default>
           <thead>
             <tr>
-              <th
-                class="text-center"
-                v-for="(colname, index) in colnames"
-                :key="index"
-                v-html="colname"
-              ></th>
+              <th class="text-left" id="no">글번호</th>
+              <th class="text-left" id="writer">글쓴이</th>
+              <th class="text-left" id="title">제목</th>
+              <th class="text-left" id="comment_count">댓글</th>
+              <th class="text-left" id="regtime">등록일</th>
+              <th class="text-left" id="check">비고</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="article in articles" :key="article.no">
-              <td v-html="article.no" @click="detailArticle(article.no)"></td>
-              <td
-                v-html="article.writer"
-                @click="detailArticle(article.no)"
-              ></td>
-              <td
-                v-html="article.title"
-                @click="detailArticle(article.no)"
-              ></td>
+              <td v-html="article.no"></td>
+              <td v-html="article.writer"></td>
+              <td v-html="article.title"></td>
+              <td v-html="article.comment_count"></td>
               <td v-html="article.regtime"></td>
               <td>
-                <button name="삭제" @click="deleteArticle(article.no)">
-                  삭제
-                </button>
+                <v-btn name="상세보기" @click="detailArticle(article.no)">
+                  상세보기
+                </v-btn>
+                <template v-if="user.userid == article.writer">
+                  <v-btn name="삭제" @click="deleteArticle(article.no)">
+                    삭제
+                  </v-btn>
+                </template>
               </td>
             </tr>
           </tbody>
@@ -50,24 +48,27 @@
 
 <script>
 import http from '../http-common';
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   name: 'SelectBoard',
   data() {
     return {
-      colnames: ['글번호', '글쓴이', '제목', '시간'],
       upHere: false,
       articles: [],
+      user: '',
       loading: true,
       errored: false,
     };
   },
   methods: {
     detailArticle(did) {
-      this.$router.push('/board/detail/' + did);
+      this.$router.push('/qnaboard/detail/' + did);
     },
     retrieveArticle() {
       http
-        .get('/board/select')
+        .get('/qnaboard/qselect')
         .then((response) => (this.articles = response.data))
         .catch(() => {
           this.errored = true;
@@ -77,7 +78,7 @@ export default {
     deleteArticle(did) {
       alert(did + '가 삭제합니다.');
       http
-        .delete('/board/delete/' + did)
+        .delete('/qnaboard/qdelete/' + did)
         .then((response) => {
           if (response.data == 'success') {
             alert('삭제처리를 하였습니다.');
@@ -95,23 +96,39 @@ export default {
   mounted() {
     this.retrieveArticle();
   },
+  created() {
+    // 가져온 Token값을 header에 넣어주는 작업 실시.
+    axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
+    axios
+      .get(`${SERVER_URL}/user/info`)
+      .then((response) => {
+        this.user = response.data.user;
+      })
+      .catch(() => {
+        // this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
+      });
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+#no {
+  width: 10%;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+#writer {
+  width: 20%;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+#title {
+  width: 30%;
 }
-a {
-  color: #42b983;
+#comment_count {
+  width: 10%;
+}
+#regitime {
+  width: 10%;
+}
+#check {
+  width: 20%;
 }
 </style>
