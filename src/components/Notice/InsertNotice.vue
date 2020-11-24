@@ -2,15 +2,22 @@
   <div>
     <h3>공지사항 작성하기</h3>
     <br />
-    <v-btn
-      id="subtitle"
-      v-for="(sub, index) in subnav"
-      :key="index"
-      :to="sub.path"
-      text
-    >
-      {{ sub.title }}
-    </v-btn>
+    <!-- 관리자일때 등록, 수정 가능하도록  -->
+    <template v-if="user.userno == 1">
+      <v-btn
+        id="subtitle"
+        v-for="(sub, index) in subnav"
+        :key="index"
+        :to="sub.path"
+        text
+      >
+        {{ sub.title }}
+      </v-btn>
+    </template>
+    <!-- 관리자가 아닐경우 조회만 가능하도록  -->
+    <template v-else>
+      <v-btn id="subtitle" :to="elsenav.path">{{ elsenav.title }}</v-btn>
+    </template>
     <br /><br />
     <div v-if="!submitted">
       <form
@@ -27,7 +34,7 @@
           <tr>
             <th>작성자</th>
             <td>
-              {{ user.userid }}
+              {{ user.username }}
             </td>
           </tr>
           <tr>
@@ -68,11 +75,11 @@
 
     <div v-else>
       <h4>성공적으로 글등록이 완료하였습니다!</h4>
-      <router-link class="btn btn-primary" to="/insert">새 글 작성</router-link>
-      |
-      <router-link class="btn btn-primary" to="/noticeboard"
-        >목록으로</router-link
+      <router-link class="btn btn-primary" to="/insertNotice"
+        >새 글 작성</router-link
       >
+      |
+      <router-link class="btn btn-primary" to="/notice">목록으로</router-link>
     </div>
   </div>
 </template>
@@ -81,7 +88,7 @@ import http from '../../http-common';
 import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
-  name: 'InsertBoard',
+  name: 'InsertNotice',
   data() {
     return {
       info: null,
@@ -92,9 +99,10 @@ export default {
       content: '',
       user: '',
       subnav: [
-        { title: '모든 글 보기', path: '/noticeboard' },
-        { title: '글 등록하기 ', path: '/insert' },
+        { title: '모든 글 보기', path: '/notice' },
+        { title: '글 등록하기 ', path: '/insertNotice' },
       ],
+      elsenav: { title: '공지사항 전체보기', path: '/notice' },
 
       submitted: false,
     };
@@ -132,7 +140,7 @@ export default {
       }
 
       http
-        .post('/noticeboard/qinsertBoard', {
+        .post('/noticeboard/insertBoard', {
           writer: this.user.userid,
           title: this.title,
           content: this.content,
