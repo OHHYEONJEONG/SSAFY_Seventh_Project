@@ -2,15 +2,22 @@
   <div>
     <h3>공지사항 상세보기</h3>
     <br />
-    <v-btn
-      id="subtitle"
-      v-for="(sub, index) in subnav"
-      :key="index"
-      :to="sub.path"
-      text
-    >
-      {{ sub.title }}
-    </v-btn>
+    <!-- 관리자일때 등록, 수정 가능하도록  -->
+    <template v-if="user.userno == 1">
+      <v-btn
+        id="subtitle"
+        v-for="(sub, index) in subnav"
+        :key="index"
+        :to="sub.path"
+        text
+      >
+        {{ sub.title }}
+      </v-btn>
+    </template>
+    <!-- 관리자가 아닐경우 조회만 가능하도록  -->
+    <template v-else>
+      <v-btn id="subtitle" :to="elsenav.path">{{ elsenav.title }}</v-btn>
+    </template>
     <br /><br />
     <v-card class="mt-3" id="card">
       <v-simple-table>
@@ -55,7 +62,7 @@ import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
-  name: 'SelectBoardByNo',
+  name: 'SelectNoticeByNo',
   props: ['no'],
   data() {
     return {
@@ -63,9 +70,10 @@ export default {
       article: {},
       user: '',
       subnav: [
-        { title: '모든 글 보기', path: '/noticeboard' },
-        { title: '글 등록하기 ', path: '/insert' },
+        { title: '모든 글 보기', path: '/notice' },
+        { title: '글 등록하기 ', path: '/insertNotice' },
       ],
+      elsenav: { title: '공지사항 전체보기', path: '/notice' },
 
       loading: true,
       errored: false,
@@ -73,12 +81,12 @@ export default {
   },
   methods: {
     updateArticle(did) {
-      this.$router.push('/update/' + did);
+      this.$router.push('/updateNotice/' + did);
     },
   },
   mounted() {
     http
-      .get('/noticeboard/qdetail/' + this.no)
+      .get('/noticeboard/detail/' + this.no)
       .then((response) => (this.article = response.data))
       .catch(() => {
         this.errored = true;
