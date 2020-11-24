@@ -24,16 +24,19 @@ const requireAuth = () => (to, from, next) => {
   } else next('/login' + nextRoute);
 };
 const routes = [
+  // Home
   {
     path: '/',
     name: 'Home',
     component: Home,
   },
+  // 아파트 정보 페이지 이동
   {
     path: '/apt',
     name: 'Apt',
     component: Apt,
   },
+  // 로그인 페이지
   {
     path: '/login',
     name: 'Login',
@@ -47,55 +50,65 @@ const routes = [
       }
     },
   },
+  // 로그인 이후
   {
     path: '/login/:nextRoute',
     name: 'LoginNextRoute',
     component: Login,
   },
+  // 공지사항 리스트 조회
   {
     path: '/notice',
     name: 'Notice',
     component: Notice,
   },
+  // 공지사항 글 등록
   {
     path: '/insertNotice',
     name: 'InsertNotice',
     component: InsertNotice,
   },
+  // 공지사항 상세보기
   {
     path: '/detailNotice/:no',
     name: 'SelectNoticeByNo',
     component: SelectNoticeByNo,
     props: true,
   },
+  // 공지사항 수정
   {
     path: '/updateNotice/:no',
     name: 'UpdateNotice',
     component: UpdateNotice,
     props: true,
   },
+  // 회원 마이페이지 이동
   {
     path: '/me',
     name: 'Me',
     component: Me,
     beforeEnter: requireAuth(),
   },
+  // QnA 글 리스트 조회
   {
     path: '/qnaboard',
     name: 'SelectBoard',
     component: SelectBoard,
   },
+  // QnA 글 등록
   {
     path: '/insert',
     name: 'InsertBoard',
     component: InsertBoard,
   },
+  // QnA 글번호에 따른 상세보기
   {
     path: '/detail/:no',
     name: 'SelectBoardByNo',
     component: SelectBoardByNo,
     props: true,
   },
+  // QnA업데이트
   {
     path: '/update/:no',
     name: 'UpdateBoard',
