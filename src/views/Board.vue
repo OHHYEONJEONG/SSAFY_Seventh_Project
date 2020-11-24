@@ -37,7 +37,9 @@
                 <v-btn name="상세보기" @click="detailArticle(article.no)">
                   상세보기
                 </v-btn>
-                <template v-if="user.userid == article.writer">
+                <template
+                  v-if="user.userid == article.writer && user.userno == 1"
+                >
                   <v-btn name="삭제" @click="deleteArticle(article.no)">
                     삭제
                   </v-btn>
