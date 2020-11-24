@@ -1,93 +1,60 @@
 <template>
-  <v-container class="mt-4" v-if="user">
-    <v-row>
-      <v-col></v-col>
-      <v-col cols="8">
-        <v-jumbotron>
-          <template #header>My Page</template>
-
-          <template #lead>
-            내 정보 확인페이지입니다.
-          </template>
-
-          <hr class="my-4" />
-
-          <v-container class="mt-4">
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">아이디</v-col
-              ><v-col cols="4" align-self="start">{{ user.userid }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">이름</v-col
-              ><v-col cols="4" align-self="start">{{ user.username }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">비밀번호</v-col
-              ><v-col cols="4" align-self="start">{{ user.userpwd }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">생년월일</v-col
-              ><v-col cols="4" align-self="start">{{ user.birth_date }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">이메일</v-col
-              ><v-col cols="4" align-self="start">{{ user.email }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">주소</v-col
-              ><v-col cols="4" align-self="start">{{ user.address }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">결혼여부</v-col
-              ><v-col cols="4" align-self="start">{{
-                user.marriage_type
-              }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="2"></v-col>
-              <v-col cols="2" align-self="end">관심지역</v-col
-              ><v-col cols="4" align-self="start">{{
-                user.interest_area
-              }}</v-col>
-              <v-col cols="2"></v-col>
-            </v-row>
-          </v-container>
-          <hr class="my-4" />
-
-          <v-btn variant="primary" href="#" class="mr-1">정보수정</v-btn>
-          <v-btn variant="danger" href="#">회원탈퇴</v-btn>
-        </v-jumbotron>
-      </v-col>
-      <v-col></v-col>
-    </v-row>
-  </v-container>
-  <!-- <h2>내정보보기</h2>
-    이름 : {{ user.username }}<br />
-    아이디 : {{ user.userid }}<br />
-    이메일 : {{ user.email }}<br />
-    주소 : {{ user.address }}<br />
-    가입일 : {{ user.joindate }}<br />
-  </div> -->
+  <v-card id="tableCard">
+    <h3>마이페이지</h3>
+    <v-simple-table>
+      <template v-slot:default>
+        <tbody>
+          <tr>
+            <td>아이디</td>
+            <td id="dataText">{{ user.userid }}</td>
+          </tr>
+          <tr>
+            <td>이름</td>
+            <td id="dataText">{{ user.username }}</td>
+          </tr>
+          <tr>
+            <td>비밀번호</td>
+            <td id="dataText">{{ user.userpwd }}</td>
+          </tr>
+          <tr>
+            <td>생년월일</td>
+            <td id="dataText">{{ user.birth_date }}</td>
+          </tr>
+          <tr>
+            <td>이메일</td>
+            <td id="dataText">{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td>주소</td>
+            <td id="dataText">{{ user.address }}</td>
+          </tr>
+          <tr>
+            <td>결혼여부</td>
+            <td id="dataText">{{ user.marriage_type }}</td>
+          </tr>
+          <tr>
+            <td>관심지역</td>
+            <td id="dataText">{{ user.interest_area }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+    <br />
+    <div>
+      <v-btn name="수정하기" @click="updateArticle(user.no)">
+        수정하기
+      </v-btn>
+      <v-btn name="탈퇴하기" @click="deleteArticle(user.no)">
+        탈퇴하기
+      </v-btn>
+      <br />
+      <br />
+    </div>
+  </v-card>
 </template>
 
 <script>
 import axios from 'axios';
-
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -96,6 +63,29 @@ export default {
       user: '',
     };
   },
+  methods: {
+    updateArticle(did) {
+      this.$router.push('/updateMember/' + did);
+    },
+    deleteArticle(did) {
+      axios
+        .delete(`${SERVER_URL}/user/deleteMember/` + did)
+        .then((response) => {
+          if (response.data == 'success') {
+            alert('삭제처리를 하였습니다.');
+            this.retrieveArticle();
+          } else {
+            alert('삭제처리를 하지 못했습니다.');
+            this.$router.push('/');
+          }
+        })
+        .catch(() => {
+          this.errored = true;
+        })
+        .finally(() => (this.loading = false));
+    },
+  },
+
   created() {
     // 가져온 Token값을 header에 넣어주는 작업 실시.
     axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
@@ -111,4 +101,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#tableCard {
+  width: 800px;
+  align-self: center;
+}
+#dataText {
+  text-align: left;
+}
+</style>
