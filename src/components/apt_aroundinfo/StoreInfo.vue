@@ -1,15 +1,33 @@
 <template>
   <div>
-    {{ envs }}
+    <v-data-table
+      :headers="headers"
+      :items="stores"
+      :items-per-page="5"
+      class="elevation-1"
+    ></v-data-table>
   </div>
 </template>
 
 <script>
 export default {
   name: 'StoreInfo',
-  props: ['envs'],
+  props: ['sidoname', 'gugunname', 'dong', 'stores'],
   data() {
-    return {};
+    return {
+      headers: [
+        {
+          text: '업체명',
+          align: 'start',
+          sortable: false,
+          value: 'storename',
+        },
+        { text: '대분류', value: 'bigname' },
+        { text: '중분류', value: 'midname' },
+        { text: '소분류', value: 'smallname' },
+        { text: '도로명주소', value: 'doroaddr' },
+      ],
+    };
   },
 };
 </script>

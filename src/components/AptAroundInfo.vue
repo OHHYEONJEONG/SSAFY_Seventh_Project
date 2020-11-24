@@ -12,7 +12,6 @@
           {{ item }}
         </v-tab>
       </v-tabs>
-
       <v-tabs-items v-model="tab">
         <v-tab-item v-for="item in items" :key="item">
           <v-card color="basil" flat>
@@ -21,10 +20,10 @@
             </v-card-text>
             <v-card-text v-else-if="tab == 1">
               <store-info
-                :sido="sido"
-                :gugun="gugun"
+                :sidoname="sidoname"
+                :gugunname="gugunname"
                 :dong="dong"
-                :envs="envs"
+                :stores="stores"
               />
             </v-card-text>
             <v-card-text v-else-if="tab == 2">편의</v-card-text>
@@ -39,9 +38,11 @@
 <script>
 import EnvInfo from '@/components/apt_aroundinfo/EnvInfo.vue';
 import StoreInfo from '@/components/apt_aroundinfo/StoreInfo.vue';
+import http from '../http-common';
+
 export default {
   name: 'AptAroundInfo',
-  props: ['sido', 'gugun', 'dong', 'envs'],
+  props: ['sido', 'sidoname', 'gugun', 'gugunname', 'dong', 'envs'],
   components: {
     EnvInfo,
     StoreInfo,
@@ -49,8 +50,25 @@ export default {
   data() {
     return {
       tab: null,
-      items: ['환경', '안전', '편의', '코로나19'],
+      items: ['환경', '상가', '편의', '코로나19'],
+      stores: [],
     };
+  },
+  updated() {
+    http // 해당 동의 주변상가정보 가져옴
+      .get(
+        '/aptaround/store/' +
+          this.sidoname +
+          '/' +
+          this.gugunname +
+          '/' +
+          this.dong
+      )
+      .then((response) => (this.stores = response.data))
+      .catch(() => {
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
   },
 };
 </script>

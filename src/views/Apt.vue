@@ -104,7 +104,9 @@
         <v-col cols="12" align="center">
           <apt-around-info
             :sido="selectSido"
+            :sidoname="sidoName"
             :gugun="selectGugun"
+            :gugunname="gugunName"
             :dong="selectDong"
             :envs="envs"
           />
