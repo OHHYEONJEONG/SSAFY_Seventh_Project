@@ -50,7 +50,7 @@ export default {
       ],
       loginIems: [
         { title: '로그인', path: '/login' },
-        { title: '회원가입', path: '/join' },
+        { title: '회원가입', path: '/joinMember' },
       ],
     };
   },
