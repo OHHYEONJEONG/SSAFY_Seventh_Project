@@ -73,7 +73,7 @@
           ><KakaoMap
             :si="sidoName"
             :gugun="gugunName"
-            :dong="dongCode"
+            :dong="selectDong"
             :aptlist="apts"
         /></v-col>
         <v-col cols="6" align="left">
