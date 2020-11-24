@@ -8,7 +8,7 @@
           <label for="id">아이디</label>
         </h3>
         <span class="box int_id">
-          <input type="text" id="id" class="int" maxlength="20" />
+          <b id="id" class="int" maxlength="20" v-html="user.userid"></b>
           <!-- <span class="step_url">@naver.com</span> -->
         </span>
         <span class="error_next_box"></span>
@@ -18,7 +18,13 @@
       <div>
         <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
         <span class="box int_pass">
-          <input type="text" id="pswd1" class="int" maxlength="20" />
+          <input
+            type="password"
+            id="pswd1"
+            class="int"
+            maxlength="20"
+            v-model="user.userpwd"
+          />
           <span id="alertTxt">사용불가</span>
           <img
             src="@/assets/join/m_icon_pass.png"
@@ -33,7 +39,13 @@
       <div>
         <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
         <span class="box int_pass_check">
-          <input type="text" id="pswd2" class="int" maxlength="20" />
+          <input
+            type="password"
+            id="pswd2"
+            class="int"
+            maxlength="20"
+            v-model="checkpwd"
+          />
           <img
             src="@/assets/join/m_icon_check_disable.png"
             id="pswd2_img1"
@@ -47,7 +59,7 @@
       <div>
         <h3 class="join_title"><label for="name">이름</label></h3>
         <span class="box int_name">
-          <input type="text" id="name" class="int" maxlength="20" />
+          <b id="id2" class="int" maxlength="20" v-html="user.username"></b>
         </span>
         <span class="error_next_box"></span>
       </div>
@@ -66,6 +78,7 @@
                 class="int"
                 maxlength="4"
                 placeholder="년(4자)"
+                v-model="user.yy"
               />
             </span>
           </div>
@@ -73,21 +86,14 @@
           <!-- BIRTH_MM -->
           <div id="bir_mm">
             <span class="box">
-              <select id="mm" class="sel">
-                <option>월</option>
-                <option value="01">1</option>
-                <option value="02">2</option>
-                <option value="03">3</option>
-                <option value="04">4</option>
-                <option value="05">5</option>
-                <option value="06">6</option>
-                <option value="07">7</option>
-                <option value="08">8</option>
-                <option value="09">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-              </select>
+              <input
+                type="text"
+                id="mm"
+                class="int"
+                maxlength="2"
+                placeholder="일"
+                v-model="user.mm"
+              />
             </span>
           </div>
 
@@ -100,64 +106,82 @@
                 class="int"
                 maxlength="2"
                 placeholder="일"
+                v-model="user.dd"
               />
             </span>
           </div>
         </div>
         <span class="error_next_box"></span>
       </div>
-
-      <!-- GENDER -->
+      <!-- 관심지역 -->
       <div>
-        <h3 class="join_title"><label for="gender">성별</label></h3>
+        <h3 class="join_title">
+          <label for="email">이메일</label>
+        </h3>
+        <span class="box int_email">
+          <input
+            type="email"
+            class="int"
+            maxlength="100"
+            placeholder="필수입력"
+            v-model="user.email"
+          />
+        </span>
+        <span class="error_next_box">관심지역 다시 확인해주세요.</span>
+      </div>
+      <!-- marriage -->
+      <div>
+        <h3 class="join_title"><label for="gender">결혼여부</label></h3>
         <span class="box gender_code">
-          <select id="gender" class="sel">
-            <option>성별</option>
-            <option value="M">남자</option>
-            <option value="F">여자</option>
-          </select>
+          <input
+            type="text"
+            class="int"
+            maxlength="100"
+            placeholder="미혼/기혼"
+            v-model="user.marriage_type"
+          />
         </span>
         <span class="error_next_box">필수 정보입니다.</span>
       </div>
 
-      <!-- EMAIL -->
+      <!-- 주소 -->
       <div>
         <h3 class="join_title">
-          <label for="email"
-            >본인확인 이메일<span class="optional">(선택)</span></label
-          >
+          <label for="email">주소</label>
         </h3>
         <span class="box int_email">
           <input
             type="text"
-            id="email"
             class="int"
             maxlength="100"
-            placeholder="선택입력"
+            placeholder="필수입력"
+            v-model="user.address"
           />
         </span>
-        <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
+        <span class="error_next_box">주소를 다시 확인해주세요.</span>
       </div>
 
-      <!-- MOBILE -->
+      <!-- 관심지역 -->
       <div>
-        <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
-        <span class="box int_mobile">
+        <h3 class="join_title">
+          <label for="email">관심지역</label>
+        </h3>
+        <span class="box int_email">
           <input
-            type="tel"
-            id="mobile"
+            type="text"
             class="int"
-            maxlength="16"
-            placeholder="전화번호 입력"
+            maxlength="100"
+            placeholder="필수입력"
+            v-model="user.interest_area"
           />
         </span>
-        <span class="error_next_box"></span>
+        <span class="error_next_box">관심지역 다시 확인해주세요.</span>
       </div>
 
       <!-- JOIN BTN-->
       <div class="btn_area">
-        <v-btn type="button" id="btnJoin">
-          <span>가입하기</span>
+        <v-btn type="button" id="btnJoin" @click="updateBoard">
+          <span>수정하기</span>
         </v-btn>
       </div>
     </div>
@@ -166,38 +190,17 @@
 </template>
 
 <script>
+import http from '../../http-common';
 import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-
 export default {
+  props: ['no'],
   data() {
     return {
       user: '',
+      checkpwd: '',
     };
   },
-  methods: {
-    updateArticle(did) {
-      this.$router.push('/updateMember/' + did);
-    },
-    deleteArticle(did) {
-      axios
-        .delete(`${SERVER_URL}/user/deleteMember/` + did)
-        .then((response) => {
-          if (response.data == 'success') {
-            alert('삭제처리를 하였습니다.');
-            this.retrieveArticle();
-          } else {
-            alert('삭제처리를 하지 못했습니다.');
-            this.$router.push('/');
-          }
-        })
-        .catch(() => {
-          this.errored = true;
-        })
-        .finally(() => (this.loading = false));
-    },
-  },
-
   created() {
     // 가져온 Token값을 header에 넣어주는 작업 실시.
     axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
@@ -209,6 +212,68 @@ export default {
       .catch(() => {
         // this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
       });
+  },
+  methods: {
+    updateBoard() {
+      if (this.user.userpwd != this.checkpwd) {
+        alert('비밀번호를 다시 확인해주세요.');
+        return;
+      }
+      if (this.user.email == '') {
+        alert('email을 작성하세요.');
+        return;
+      }
+      if (this.user.address == '') {
+        alert('주소를 작성하세요.');
+        return;
+      }
+
+      if (this.user.yy == '') {
+        alert('생년월일을 작성하세요.');
+        return;
+      }
+
+      if (this.user.mm == '') {
+        alert('생년월일을 작성하세요.');
+        return;
+      }
+
+      if (this.user.dd == '') {
+        alert('생년월일을 작성하세요.');
+        return;
+      }
+
+      if (this.user.interest_area == '') {
+        alert('관심 지역을 작성하세요.');
+        return;
+      }
+      if (this.user.marriage_type == '') {
+        alert('결혼 여부을 작성하세요.');
+        return;
+      } else {
+        this.$store
+          .dispatch('LOGOUT')
+          .then(() => this.$router.replace('/').catch(() => {}));
+        this.$router.push('/');
+      }
+
+      http
+        .put('/user/updateMember/' + this.user.no, this.user)
+        .then((response) => {
+          if (response.data == 'success') {
+            alert('글등록 업데이트처리를 하였습니다.');
+          } else {
+            alert('글등록 업데이트처리를 하지 못했습니다.');
+          }
+        });
+      this.submitted = true;
+    },
+    newCustomer() {
+      (this.submitted = false),
+        (this.writer = null),
+        (this.title = null),
+        (this.content = null);
+    },
   },
 };
 </script>
@@ -222,7 +287,6 @@ html {
 body {
   margin: 0;
   height: 100%;
-  background: #f5f6f7;
   font-family: Dotum, '돋움', Helvetica, sans-serif;
 }
 #logo {
@@ -393,5 +457,13 @@ select {
   font-size: 20px;
   font-weight: 400;
   font-family: Dotum, '돋움', Helvetica, sans-serif;
+}
+
+#id {
+  text-align: center;
+  padding-left: 100px;
+}
+#id2 {
+  text-align: center;
 }
 </style>
