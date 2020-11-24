@@ -6,6 +6,7 @@ import SelectBoard from '@/views/Board.vue';
 import Login from '@/views/Login.vue';
 import Notice from '@/views/Notice.vue';
 import Me from '@/views/Me.vue';
+import JoinMember from '@/components/Member/JoinMember.vue';
 import UpdateMember from '@/components/Member/UpdateMember.vue';
 import store from '@/store';
 import InsertBoard from '@/components/QnA/InsertBoard.vue';
@@ -89,6 +90,12 @@ const routes = [
     name: 'Me',
     component: Me,
     beforeEnter: requireAuth(),
+  },
+  // 회원 등록
+  {
+    path: '/joinMember/',
+    name: 'JoinMember',
+    component: JoinMember,
   },
   // 마이페이지 수정
   {
