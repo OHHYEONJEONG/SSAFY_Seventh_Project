@@ -6,6 +6,7 @@ import SelectBoard from '@/views/Board.vue';
 import Login from '@/views/Login.vue';
 import Notice from '@/views/Notice.vue';
 import Me from '@/views/Me.vue';
+import UpdateMember from '@/components/Member/UpdateMember.vue';
 import store from '@/store';
 import InsertBoard from '@/components/QnA/InsertBoard.vue';
 import SelectBoardByNo from '@/components/QnA/SelectBoardByNo.vue';
@@ -88,6 +89,13 @@ const routes = [
     name: 'Me',
     component: Me,
     beforeEnter: requireAuth(),
+  },
+  // 마이페이지 수정
+  {
+    path: '/updateMember/:no',
+    name: 'UpdateMember',
+    component: UpdateMember,
+    props: true,
   },
   // QnA 글 리스트 조회
   {
