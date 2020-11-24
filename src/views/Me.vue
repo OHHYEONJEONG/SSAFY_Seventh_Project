@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <td>생년월일</td>
-            <td id="dataText">{{ user.birth_date }}</td>
+            <td id="dataText">{{ user.yy }}-{{ user.mm }}-{{ user.dd }}</td>
           </tr>
           <tr>
             <td>이메일</td>
