@@ -2,7 +2,9 @@
   <div>
     <h3>공지사항</h3>
     <br />
-    <template v-if="user.no == 1">
+
+    <!-- 관리자일때 등록, 수정 가능하도록  -->
+    <template v-if="user.userno == 1">
       <v-btn
         id="subtitle"
         v-for="(sub, index) in subnav"
@@ -13,6 +15,7 @@
         {{ sub.title }}
       </v-btn>
     </template>
+    <!-- 관리자가 아닐경우 조회만 가능하도록  -->
     <template v-else>
       <v-btn id="subtitle" :to="elsenav.path">{{ elsenav.title }}</v-btn>
     </template>
@@ -42,7 +45,7 @@
                 <v-btn name="상세보기" @click="detailArticle(article.no)">
                   상세보기
                 </v-btn>
-                <template v-if="user.no == 1">
+                <template v-if="user.userno == 1">
                   <v-btn name="삭제" @click="deleteArticle(article.no)">
                     삭제
                   </v-btn>
@@ -62,28 +65,28 @@ import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
-  name: 'SelectBoard',
+  name: 'Notice',
   data() {
     return {
       upHere: false,
       articles: [],
       user: '',
       subnav: [
-        { title: '모든 글 보기', path: '/noticeboard' },
-        { title: '글 등록하기 ', path: '/insert' },
+        { title: '모든 글 보기', path: '/notice' },
+        { title: '글 등록하기 ', path: '/insertNotice' },
       ],
-      elsenav: { title: '공지사항 전체보기', path: '/noticeboard' },
+      elsenav: { title: '공지사항 전체보기', path: '/notice' },
       loading: true,
       errored: false,
     };
   },
   methods: {
     detailArticle(did) {
-      this.$router.push('/detail/' + did);
+      this.$router.push('/detailNotice/' + did);
     },
     retrieveArticle() {
       http
-        .get('/noticeboard/qselect')
+        .get('/noticeboard/select')
         .then((response) => (this.articles = response.data))
         .catch(() => {
           this.errored = true;
@@ -93,7 +96,7 @@ export default {
     deleteArticle(did) {
       alert(did + '가 삭제합니다.');
       http
-        .delete('/noticeboard/qdelete/' + did)
+        .delete('/noticeboard/delete/' + did)
         .then((response) => {
           if (response.data == 'success') {
             alert('삭제처리를 하였습니다.');
