@@ -27,7 +27,23 @@
               />
             </v-card-text>
             <v-card-text v-else-if="tab == 2">편의</v-card-text>
-            <v-card-text v-else-if="tab == 3">코로나19</v-card-text>
+            <v-card-text v-else-if="tab == 3">
+              <v-btn @click="isClinic" class="pink white--text"
+                >코로나 선별 진료소</v-btn
+              >
+              <v-btn @click="isHospital" class="pink white--text"
+                >코로나 안심 병원</v-btn
+              >
+
+              <br />
+              <br />
+              <div v-if="clinicORhospital == 'clinic'">
+                <corona-clinic :clinics="clinics" />
+              </div>
+              <div v-if="clinicORhospital == 'hospital'">
+                <hospital :hospitals="hospitals" />
+              </div>
+            </v-card-text>
           </v-card>
         </v-tab-item>
       </v-tabs-items>
@@ -38,6 +54,8 @@
 <script>
 import EnvInfo from '@/components/apt_aroundinfo/EnvInfo.vue';
 import StoreInfo from '@/components/apt_aroundinfo/StoreInfo.vue';
+import CoronaClinic from '@/components/apt_aroundinfo/CoronaClinic.vue';
+import Hospital from '@/components/apt_aroundinfo/Hospital.vue';
 import http from '../http-common';
 
 export default {
@@ -46,12 +64,17 @@ export default {
   components: {
     EnvInfo,
     StoreInfo,
+    CoronaClinic,
+    Hospital,
   },
   data() {
     return {
       tab: null,
       items: ['환경', '상가', '편의', '코로나19'],
       stores: [],
+      clinicORhospital: 'clinic',
+      clinics: [],
+      hospitals: [],
     };
   },
   updated() {
@@ -69,6 +92,30 @@ export default {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
+
+    http // 해당 동의 주변 코로나 진료소 정보 가져옴
+      .get('/aptaround/coronaclinic/' + this.sidoname + '/' + this.gugunname)
+      .then((response) => (this.clinics = response.data))
+      .catch(() => {
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
+
+    http // 해당 동의 주변 안심병원 정보 가져옴
+      .get('/aptaround/hospital/' + this.sidoname + '/' + this.gugunname)
+      .then((response) => (this.hospitals = response.data))
+      .catch(() => {
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
+  },
+  methods: {
+    isClinic() {
+      this.clinicORhospital = 'clinic';
+    },
+    isHospital() {
+      this.clinicORhospital = 'hospital';
+    },
   },
 };
 </script>
