@@ -74,33 +74,32 @@
         <h3>총 {{ aptsBydong.length }} 개의 결과물이 있습니다.</h3>
       </v-row>
       <v-row>
-        <v-col cols="6"
+        <v-col cols="12"
           ><KakaoMap
             :si="sidoName"
             :gugun="gugunName"
             :dong="selectDong"
             :aptlist="aptsBydong"
         /></v-col>
-        <v-col cols="6" align="left">
-          <apt-list
-            :aptlist="aptsBydong"
-            @select-apt="selectedApt"
-            :dongCode="selectDong"
-          />
-        </v-col>
       </v-row>
 
       <!-- apt 상세정보 -->
       <v-row>
         <v-col cols="12">
           <div id="aptdetail">
-            <h2>아파트 상세정보</h2>
             <v-row>
-              <v-col cols="4"></v-col>
-              <v-col cols="4">
-                <apt-detail :apt="selectApt" />
+              <v-col cols="6" align="left">
+                <apt-list
+                  :aptlist="aptsBydong"
+                  @select-apt="selectedApt"
+                  @select-img="selectedImage"
+                  :dongCode="selectDong"
+                />
               </v-col>
-              <v-col cols="4"></v-col>
+              <v-col cols="4">
+                <h2>아파트 상세정보</h2>
+                <apt-detail :apt="selectApt" :img="selectImage" />
+              </v-col>
             </v-row>
           </div>
         </v-col>
@@ -149,6 +148,7 @@ export default {
     return {
       dongCode: '',
       selectApt: '',
+      selectImage: '',
       apts: [],
       aptsBydong: [], // 동별 검색 후 가져온 아파트들
       selectSido: '', // 시도 코드
@@ -232,6 +232,9 @@ export default {
     },
     selectedApt: function(apt) {
       this.selectApt = apt;
+    },
+    selectedImage: function(img) {
+      this.selectImage = img;
     },
     selectedSido: function() {
       http

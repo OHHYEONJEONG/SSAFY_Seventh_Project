@@ -4,7 +4,7 @@
       <v-card-title text-align="center" class="white darken-4">
         <h3>{{ apt.아파트 }}</h3>
       </v-card-title>
-      <img src="@/assets/apt.png" alt="행복 아파트" />
+      <img :src="img" alt="행복 아파트" />
       <div style="margin: 10px"></div>
       <v-card-text>
         <ul align="left">
@@ -26,6 +26,7 @@ export default {
   name: 'AptDetail',
   props: {
     apt: [Object, String], //apt를 Object로 받음
+    img: String,
   },
   filters: {
     price: function(value) {

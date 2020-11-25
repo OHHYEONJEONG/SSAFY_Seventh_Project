@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div v-if="stores.length == 0">
+      <h2>
+        해당 지역의 상가정보 데이터가 없습니다.
+      </h2>
+    </div>
     <v-data-table
       :headers="headers"
       :items="stores"

@@ -1,12 +1,9 @@
 <template>
   <div>
-    <div id="map" style="width:550px;height:500px;"></div>
-    <ul>
-      <li v-for="item in aptlist" v-bind:key="item">
-        {{ si }} {{ gugun }} {{ item.법정동 }} {{ item.도로명 }}
-        {{ item.아파트 }}
-      </li>
-    </ul>
+    <div id="map" style="width:100%;height:500px;"></div>
+    <div hidden>
+      {{ aptlist }}
+    </div>
   </div>
 </template>
 
@@ -60,6 +57,32 @@ export default {
       var geocoder = new kakao.maps.services.Geocoder(); // 주소로 좌표를 검색합니다
       var imageSrc =
         'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+
+      // 해당 동에 아파트 거래내역이 없으면 해당 동으로 위치 조정
+      if (this.aptlist.length == 0) {
+        var addrFullName = this.si + ' ' + this.gugun + ' ';
+
+        geocoder.addressSearch(addrFullName, function(result, status) {
+          // 정상적으로 검색이 완료됐으면
+          if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            var marker = new kakao.maps.Marker({
+              map: map,
+              position: coords,
+            }); // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+              content:
+                '<div style="width:150px;text-align:center;padding:6px 0;">' +
+                '해당 도시에 거래 내역이 없습니다.' +
+                '</div>',
+            });
+            infowindow.open(map, marker); // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            marker.setMap(map);
+            map.setCenter(coords);
+          }
+        });
+      }
+
       this.aptlist.forEach((element) => {
         // 마커 이미지의 이미지 크기 입니다
         var imageSize = new kakao.maps.Size(24, 35);
