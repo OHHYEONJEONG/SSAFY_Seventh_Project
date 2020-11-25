@@ -3,7 +3,8 @@
     <div id="map" style="width:550px;height:500px;"></div>
     <ul>
       <li v-for="item in aptlist" v-bind:key="item">
-        {{ si }} {{ gugun }} {{ dong }} {{ item.도로명 }} {{ item.아파트 }}
+        {{ si }} {{ gugun }} {{ item.법정동 }} {{ item.도로명 }}
+        {{ item.아파트 }}
       </li>
     </ul>
   </div>
@@ -15,7 +16,6 @@ export default {
   data() {
     return {
       container: Document,
-      map: Object,
     };
   },
   props: {
@@ -28,10 +28,7 @@ export default {
     window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
   },
   updated() {
-    this.aptlist.forEach((element) => {
-      console.log(element.도로명);
-      this.addMarker(element.도로명, element.아파트);
-    });
+    this.addMarker();
   },
   methods: {
     initMap() {
@@ -41,12 +38,11 @@ export default {
         level: 3,
       };
       let map = new kakao.maps.Map(this.container, options);
-      this.map = map;
       //마커추가하려면 객체를 아래와 같이 하나 만든다.
       var marker = new kakao.maps.Marker({
-        position: this.map.getCenter(),
+        position: map.getCenter(),
       });
-      marker.setMap(this.map);
+      marker.setMap(map);
     },
     addScript() {
       const script = document.createElement('script'); /* global kakao */
@@ -55,39 +51,54 @@ export default {
         'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=b433b7b8f851f9709d26a15fb4fc0660&libraries=services';
       document.head.appendChild(script);
     },
-    addMarker(addr, apt) {
-      var addrFullName =
-        this.si + ' ' + this.gugun + ' ' + this.dong + ' ' + addr;
+    addMarker() {
       var mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
+        level: 4, // 지도의 확대 레벨
       }; // 지도를 생성합니다
       var map = new kakao.maps.Map(this.container, mapOption); // 주소-좌표 변환 객체를 생성합니다
       var geocoder = new kakao.maps.services.Geocoder(); // 주소로 좌표를 검색합니다
-      geocoder.addressSearch(addrFullName, function(result, status) {
-        // 정상적으로 검색이 완료됐으면
-        if (status === kakao.maps.services.Status.OK) {
-          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-          //var message = 'latlng: new kakao.maps.LatLng(' + result[0].y + ', ';
-          //message += result[0].x + ')';
-          //var resultDiv = document.getElementById('clickLatlng');
-          //resultDiv.innerHTML = message; // 결과값으로 받은 위치를 마커로 표시합니다
-          var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords,
-          }); // 인포윈도우로 장소에 대한 설명을 표시합니다
-          var infowindow = new kakao.maps.InfoWindow({
-            content:
-              '<div style="width:150px;text-align:center;padding:6px 0;">' +
-              addrFullName +
-              ' ' +
-              apt +
-              '</div>',
-          });
-          infowindow.open(map, marker); // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-          marker.setMap(map);
-          map.setCenter(coords);
-        }
+      var imageSrc =
+        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+      this.aptlist.forEach((element) => {
+        // 마커 이미지의 이미지 크기 입니다
+        var imageSize = new kakao.maps.Size(24, 35);
+
+        // 마커 이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+        var addrFullName =
+          this.si +
+          ' ' +
+          this.gugun +
+          ' ' +
+          element.법정동 +
+          ' ' +
+          element.도로명;
+
+        geocoder.addressSearch(addrFullName, function(result, status) {
+          // 정상적으로 검색이 완료됐으면
+          if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            var marker = new kakao.maps.Marker({
+              map: map,
+              position: coords,
+              image: markerImage, // 마커 이미지
+              title: element.아파트,
+            }); // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+              content:
+                '<div style="width:150px;text-align:center;padding:6px 0;">' +
+                addrFullName +
+                ' ' +
+                element.아파트 +
+                '</div>',
+            });
+            infowindow.open(map, marker); // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            marker.setMap(map);
+            map.setCenter(coords);
+          }
+        });
       });
     },
   },

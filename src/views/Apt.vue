@@ -8,10 +8,12 @@
       </v-row>
       <v-row>
         <v-col>
-          <p>*아파트 코드를 입력하세요*</p>
+          <v-btn @click="searchDong">동별 검색</v-btn>
+        </v-col>
+        <v-col>
+          <v-btn @click="searchApt">아파트별 검색</v-btn>
         </v-col>
       </v-row>
-      <search-bar @send-dong-code="sendDongCode" />
 
       <!-- 시,군구,동 별 검색 -->
       <v-row>
@@ -47,7 +49,7 @@
             </template>
           </v-select>
         </v-col>
-        <v-col class="d-flex" cols="4" sm="4">
+        <v-col v-if="isSearchDong == 0" class="d-flex" cols="4" sm="4">
           <v-select
             label="동"
             v-bind:items="dongs"
@@ -63,10 +65,13 @@
             </template>
           </v-select>
         </v-col>
+        <v-col v-else-if="isSearchDong == 1">
+          <search-bar @apt-name="sendAptName" />
+        </v-col>
       </v-row>
       <!-- MAP and Apt List-->
       <v-row>
-        <h3>총 {{ apts.length }} 개의 결과물이 있습니다.</h3>
+        <h3>총 {{ aptsBydong.length }} 개의 결과물이 있습니다.</h3>
       </v-row>
       <v-row>
         <v-col cols="6"
@@ -74,11 +79,11 @@
             :si="sidoName"
             :gugun="gugunName"
             :dong="selectDong"
-            :aptlist="apts"
+            :aptlist="aptsBydong"
         /></v-col>
         <v-col cols="6" align="left">
           <apt-list
-            :aptlist="apts"
+            :aptlist="aptsBydong"
             @select-apt="selectedApt"
             :dongCode="selectDong"
           />
@@ -145,16 +150,18 @@ export default {
       dongCode: '',
       selectApt: '',
       apts: [],
-      selectSido: '',
-      selectGugun: '',
-      selectDong: '',
+      aptsBydong: [], // 동별 검색 후 가져온 아파트들
+      selectSido: '', // 시도 코드
+      selectGugun: '', // 구군 코드
+      selectDong: '', // 동 이름
       sidos: [],
       guguns: [],
       dongs: [],
-      sidoName: '',
-      gugunName: '',
+      sidoName: '', // 시도 이름
+      gugunName: '', // 구군 이름
       dongName: '',
       envs: [],
+      isSearchDong: 0, // 동(0)으로 검색할것인가 아파트(1)로 검색할것인가
     };
   },
   mounted() {
@@ -167,25 +174,11 @@ export default {
       .finally(() => (this.loading = false));
   },
   methods: {
-    sendDongCode(dongCode) {
-      console.log('전달된 데이터: ' + dongCode);
-      this.dongCode = dongCode;
-
-      // const API_KEY = 'dGfDa9%2BKMT7%2Fde3pabp8NyJqgrzY8roBjPsl6AuJjoAtfz9s92qTR%2FS8KU%2FGKpWzCz7EefDTc9kwUtEYc6O29Q%3D%3D';
-      // const API_URL = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD='+dongCode+'&DEAL_YMD=202011&serviceKey='+API_KEY;
-      // axios
-      // .get(API_URL)
-      // .then((response)=>{
-      //   console.log(response);
-      //   this.apts=response.data.response.body.items.item;
-      // })
-      // .catch((error)=>{
-      //   console.log(error);
-      // });
-
+    sendAptName(aptname) {
+      this.aptsBydong = [];
       const params = {
-        LAWD_CD: this.dongCode,
-        DEAL_YMD: '202011',
+        LAWD_CD: this.selectGugun,
+        DEAL_YMD: '201912',
         serviceKey: decodeURIComponent(API_KEY),
       };
       axios
@@ -195,6 +188,43 @@ export default {
         })
         .then((response) => {
           this.apts = response.data.response.body.items.item;
+
+          // 아파트 동이름으로 가져오기
+          this.apts.forEach((element) => {
+            if (element.아파트.includes(aptname)) {
+              console.log(element.아파트);
+              this.aptsBydong.push(element);
+            }
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    sendDongCode(dongCode) {
+      this.aptsBydong = [];
+      this.dongCode = dongCode;
+
+      const params = {
+        LAWD_CD: this.dongCode,
+        DEAL_YMD: '201912',
+        serviceKey: decodeURIComponent(API_KEY),
+      };
+      axios
+        .get(API_URL, {
+          //params:params
+          params,
+        })
+        .then((response) => {
+          this.apts = response.data.response.body.items.item;
+
+          // 아파트 동이름으로 가져오기
+          this.apts.forEach((element) => {
+            if (element.법정동 == ' ' + this.selectDong) {
+              console.log(element.법정동);
+              this.aptsBydong.push(element);
+            }
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -224,6 +254,7 @@ export default {
         });
     },
     selectedDong: function() {
+      console.log('동 고름');
       // 동까지 골라지면
       this.sendDongCode(this.selectGugun);
       http // 시코드로 시이름 구하고
@@ -259,6 +290,12 @@ export default {
             })
             .finally(() => (this.loading = false));
         });
+    },
+    searchDong() {
+      this.isSearchDong = 0;
+    },
+    searchApt() {
+      this.isSearchDong = 1;
     },
   },
 };

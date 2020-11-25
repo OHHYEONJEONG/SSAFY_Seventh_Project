@@ -34,17 +34,6 @@ export default {
       this.$emit('select-apt', apt);
     },
   },
-  updated() {
-    console.log('----APTLIST-----');
-    console.log(this.dongCode);
-    this.aptlist.forEach((element) => {
-      console.log(element.법정동);
-      if (element.법정동 == ' ' + this.dongCode) {
-        console.log('들어감');
-      }
-    });
-    console.log('------------------');
-  },
 };
 </script>
 

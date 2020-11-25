@@ -14,23 +14,23 @@
 
 <script>
 export default {
-  name: "AptListItem",
+  name: 'AptListItem',
   data() {
     return {
-      isColor: false
+      isColor: false,
     };
   },
   props: {
-    apt: Object
+    apt: Object,
   },
   methods: {
     selectedApt: function() {
-      this.$emit("select-apt", this.apt);
+      this.$emit('select-apt', this.apt);
     },
     bgColorChange: function(flag) {
       this.isColor = flag;
-    }
-  }
+    },
+  },
 };
 </script>
 
