@@ -39,7 +39,7 @@
               <td v-html="article.no"></td>
               <td v-html="article.writer"></td>
               <td v-html="article.title"></td>
-              <td v-html="article.comment_count"></td>
+              <td v-html="article.views"></td>
               <td v-html="article.regtime"></td>
               <td>
                 <v-btn name="상세보기" @click="detailArticle(article.no)">
@@ -78,10 +78,13 @@ export default {
       elsenav: { title: '공지사항 전체보기', path: '/notice' },
       loading: true,
       errored: false,
+      count: 0,
     };
   },
   methods: {
     detailArticle(did) {
+      http.put('/noticeboard/countViewsBoard/' + did).then();
+      this.submitted = true;
       this.$router.push('/detailNotice/' + did);
     },
     retrieveArticle() {
