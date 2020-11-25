@@ -23,7 +23,7 @@ export default {
   methods: {
     aptName: function() {
       //console.log(event.target.value);
-      console.log(this.dongCode);
+      console.log(this.aptname);
       this.$emit('apt-name', this.aptname); //발생할 이벤트 이름, 보낼 데이터
     },
   },

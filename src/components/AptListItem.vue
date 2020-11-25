@@ -8,7 +8,7 @@
   >
     <img
       :src="selectedImage"
-      style="height:100px; width=100px;"
+      style="height:64px; width=100px;"
       class="img-list"
       alt=""
     />

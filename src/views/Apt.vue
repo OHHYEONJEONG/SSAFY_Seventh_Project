@@ -87,7 +87,8 @@
       <v-row>
         <v-col cols="12">
           <div id="aptdetail">
-            <v-row>
+            <div hidden style="height:40px;"></div>
+            <v-row style="margin-top:40px;">
               <v-col cols="6" align="left">
                 <apt-list
                   :aptlist="aptsBydong"
@@ -96,7 +97,7 @@
                   :dongCode="selectDong"
                 />
               </v-col>
-              <v-col cols="4">
+              <v-col cols="6">
                 <h2>아파트 상세정보</h2>
                 <apt-detail :apt="selectApt" :img="selectImage" />
               </v-col>
@@ -127,7 +128,6 @@ import AptDetail from '@/components/AptDetail.vue';
 import KakaoMap from '@/components/map/KakaoMap.vue';
 import AptAroundInfo from '@/components/AptAroundInfo.vue';
 import http from '../http-common';
-import axios from 'axios';
 
 // vue cli enviroment variables 검색
 // 반드시 VUE_APP으로 시작해야 한다.
@@ -181,14 +181,13 @@ export default {
         DEAL_YMD: '201912',
         serviceKey: decodeURIComponent(API_KEY),
       };
-      axios
+      http
         .get(API_URL, {
-          //params:params
           params,
         })
         .then((response) => {
+          console.log(response.data);
           this.apts = response.data.response.body.items.item;
-
           // 아파트 동이름으로 가져오기
           this.apts.forEach((element) => {
             if (element.아파트.includes(aptname)) {
@@ -210,7 +209,7 @@ export default {
         DEAL_YMD: '201912',
         serviceKey: decodeURIComponent(API_KEY),
       };
-      axios
+      http
         .get(API_URL, {
           //params:params
           params,

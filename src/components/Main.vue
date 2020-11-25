@@ -186,7 +186,7 @@
                       </div>
                     </div>
                   </v-card-text>
-                  <v-card-text v-else-if="tab == 2"> <kakao-map /></v-card-text>
+                  <v-card-text v-else-if="tab == 2"></v-card-text>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -198,9 +198,6 @@
 </template>
 <script>
 import http from '../http-common';
-//import Notice from '@/views/Notice.vue';
-//import Apt from '@/views/Apt.vue';
-import KakaoMap from '@/components/map/KakaoMap.vue';
 export default {
   name: 'Main',
   data: () => ({
@@ -213,7 +210,6 @@ export default {
     tab: null,
     items: ['공지사항', '뉴스', '아파트정보'],
     articles: [],
-    apts: [],
     cards: [
       {
         title: '관심 지역',
@@ -235,11 +231,7 @@ export default {
   created() {
     this.retrieveArticle();
   },
-  components: {
-    //Notice,
-    //Apt,
-    KakaoMap,
-  },
+  components: {},
   methods: {
     retrieveArticle() {
       http

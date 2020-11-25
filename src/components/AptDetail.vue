@@ -1,10 +1,11 @@
 <template>
-  <div v-if="apt" class="detail-list">
+  <div v-if="apt" class="detail-list" style="width:400px;">
     <v-card color="white">
       <v-card-title text-align="center" class="white darken-4">
         <h3>{{ apt.아파트 }}</h3>
       </v-card-title>
-      <img :src="img" alt="행복 아파트" />
+      <br /><br />
+      <img :src="img" alt="행복 아파트" style="width:100%;" />
       <div style="margin: 10px"></div>
       <v-card-text>
         <ul align="left">
@@ -37,8 +38,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .detail-list {
   width: 480px;
+}
+img {
+  height: 200px;
+  width: 300px;
 }
 </style>
