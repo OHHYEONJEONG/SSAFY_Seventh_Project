@@ -1,34 +1,17 @@
 <template>
   <div>
+    <div v-if="envs.length == 0">
+      <h2>
+        해당 지역의 환경정보 데이터가 없습니다.
+      </h2>
+    </div>
     <v-data-table
+      v-else
       :headers="headers"
       :items="envs"
       :items-per-page="5"
       class="elevation-1"
     ></v-data-table>
-    <!-- <v-simple-table
-      style="width:500px; margin-left:auto; margin-right:auto;"
-      dense
-    >
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th>업체명</th>
-            <th>업종명</th>
-            <th>점검사항</th>
-            <th>주소</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in envs" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.sname }}</td>
-            <td>{{ item.chkspec }}</td>
-            <td>{{ item.locaddr }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table> -->
   </div>
 </template>
 

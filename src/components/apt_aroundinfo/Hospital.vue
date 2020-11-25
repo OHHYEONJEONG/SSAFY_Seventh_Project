@@ -1,6 +1,12 @@
 <template>
   <div>
+    <div v-if="hospitals.length == 0">
+      <h2>
+        해당 지역의 코로나19 안심병원 정보 데이터가 없습니다.
+      </h2>
+    </div>
     <v-data-table
+      v-else
       :headers="headers"
       :items="hospitals"
       :items-per-page="5"

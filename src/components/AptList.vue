@@ -4,7 +4,12 @@
       <v-virtual-scroll :items="aptlist" height="500" item-height="100">
         <template v-slot:default="{ item }">
           <v-list-item>
-            <apt-list-item :key="item" :apt="item" @select-apt="selectApt" />
+            <apt-list-item
+              :key="item"
+              :apt="item"
+              @select-apt="selectApt"
+              @select-img="selectImage"
+            />
           </v-list-item>
         </template>
       </v-virtual-scroll>
@@ -32,6 +37,9 @@ export default {
   methods: {
     selectApt: function(apt) {
       this.$emit('select-apt', apt);
+    },
+    selectImage: function(img) {
+      this.$emit('select-img', img);
     },
   },
 };

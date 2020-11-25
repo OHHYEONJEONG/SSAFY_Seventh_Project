@@ -6,7 +6,12 @@
     @mouseout="bgColorChange(false)"
     :class="{ 'mouse-over-bgcolor': isColor }"
   >
-    <img src="@/assets/apt.png" class="img-list" alt="" />
+    <img
+      :src="selectedImage"
+      style="height:100px; width=100px;"
+      class="img-list"
+      alt=""
+    />
     [{{ apt.일련번호 }}]
     {{ apt.아파트 }}
   </div>
@@ -18,7 +23,19 @@ export default {
   data() {
     return {
       isColor: false,
+      images: [
+        require('@/assets/apt/apt.png'),
+        require('@/assets/apt/apt1.jpg'),
+        require('@/assets/apt/apt2.jpg'),
+        require('@/assets/apt/apt3.jpg'),
+      ],
+      selectedImage: '',
     };
+  },
+  created() {
+    console.log('아파트 그림 ');
+    const idx = Math.floor(Math.random() * this.images.length);
+    this.selectedImage = this.images[idx];
   },
   props: {
     apt: Object,
@@ -26,6 +43,7 @@ export default {
   methods: {
     selectedApt: function() {
       this.$emit('select-apt', this.apt);
+      this.$emit('select-img', this.selectedImage);
     },
     bgColorChange: function(flag) {
       this.isColor = flag;
@@ -36,11 +54,11 @@ export default {
 
 <style>
 .img-list {
-  height: 60px;
+  height: 64px;
   width: 100px;
 }
 .mouse-over-bgcolor {
-  background-color: #7fffd4;
+  background-color: #e0eeee;
   font-size: 13pt;
 }
 </style>
