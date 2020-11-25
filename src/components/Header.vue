@@ -14,7 +14,12 @@
       </v-btn>
 
       <v-spacer></v-spacer>
-      <div v-if="getAccessToken">
+      <div v-if="user.userno == 1">
+        <v-btn to="/memberMgt">관리자페이지</v-btn>
+        <v-btn to="/me">마이페이지</v-btn>
+        <v-btn @click.prevent="onClickLogout">로그아웃</v-btn>
+      </div>
+      <div v-else-if="getAccessToken">
         <v-btn to="/me">마이페이지</v-btn>
         <v-btn @click.prevent="onClickLogout">로그아웃</v-btn>
       </div>
@@ -35,12 +40,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   name: 'Header',
 
   data() {
     return {
+      user: '',
       isLogin: false,
       sidebar: false,
       menuItems: [
@@ -54,7 +62,18 @@ export default {
       ],
     };
   },
-
+  created() {
+    // 가져온 Token값을 header에 넣어주는 작업 실시.
+    axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
+    axios
+      .get(`${SERVER_URL}/user/info`)
+      .then((response) => {
+        this.user = response.data.user;
+      })
+      .catch(() => {
+        // this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
+      });
+  },
   computed: {
     ...mapGetters(['getAccessToken', 'getUserId', 'getUserName']),
   },
