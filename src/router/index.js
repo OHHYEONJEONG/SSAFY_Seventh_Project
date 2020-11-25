@@ -6,6 +6,8 @@ import SelectBoard from '@/views/Board.vue';
 import Login from '@/views/Login.vue';
 import Notice from '@/views/Notice.vue';
 import Me from '@/views/Me.vue';
+import MemberMgt from '@/views/MemberMgt.vue';
+
 import JoinMember from '@/components/Member/JoinMember.vue';
 import UpdateMember from '@/components/Member/UpdateMember.vue';
 import store from '@/store';
@@ -57,6 +59,13 @@ const routes = [
     path: '/login/:nextRoute',
     name: 'LoginNextRoute',
     component: Login,
+  },
+
+  // 관리자페이지
+  {
+    path: '/memberMgt',
+    name: 'MemberMgt',
+    component: MemberMgt,
   },
   // 공지사항 리스트 조회
   {
