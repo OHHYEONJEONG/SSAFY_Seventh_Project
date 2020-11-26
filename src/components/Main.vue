@@ -19,8 +19,8 @@
     <br /><br />
     <br />
     <v-row>
-      <v-col cols="6">
-        <v-card class="mx-auto" max-width="500">
+      <v-col cols="4">
+        <v-card class="mx-auto" max-width="100%">
           <v-toolbar color="black" dark>
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
@@ -67,15 +67,12 @@
           </v-container>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="8">
         <div class="around">
-          <v-card>
-            <v-card-title class="text-center justify-center py-6">
-            </v-card-title>
-
-            <v-tabs v-model="tab" grow>
+          <v-card class="mx-auto" max-width="100%">
+            <v-tabs v-model="tab" grow color="white" dark height="65px">
               <v-tab v-for="item in items" :key="item">
-                <p>{{ item }}</p>
+                <p style="font-size:20px;">{{ item }}</p>
               </v-tab>
             </v-tabs>
             <v-tabs-items v-model="tab">
@@ -186,7 +183,7 @@
                       </div>
                     </div>
                   </v-card-text>
-                  <v-card-text v-else-if="tab == 2"></v-card-text>
+                  <v-card-text v-else-if="tab == 2">{{ user }}</v-card-text>
                 </v-card>
               </v-tab-item>
             </v-tabs-items>
@@ -198,9 +195,13 @@
 </template>
 <script>
 import http from '../http-common';
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   name: 'Main',
   data: () => ({
+    user: '',
     model: 0,
     imgs: [
       require('../assets/home1.jpg'),
@@ -230,6 +231,16 @@ export default {
   }),
   created() {
     this.retrieveArticle();
+    // 가져온 Token값을 header에 넣어주는 작업 실시.
+    axios.defaults.headers.common['auth-token'] = this.$store.state.accessToken;
+    axios
+      .get(`${SERVER_URL}/user/info`)
+      .then((response) => {
+        this.user = response.data.user;
+      })
+      .catch(() => {
+        // this.$store.dispatch('LOGOUT').then(() => this.$router.replace('/'));
+      });
   },
   components: {},
   methods: {

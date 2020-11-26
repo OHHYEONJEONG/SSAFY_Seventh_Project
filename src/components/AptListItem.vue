@@ -28,6 +28,8 @@ export default {
         require('@/assets/apt/apt1.jpg'),
         require('@/assets/apt/apt2.jpg'),
         require('@/assets/apt/apt3.jpg'),
+        require('@/assets/apt/apt4.jpg'),
+        require('@/assets/apt/apt5.jpg'),
       ],
       selectedImage: '',
     };

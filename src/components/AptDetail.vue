@@ -1,5 +1,5 @@
 <template>
-  <div v-if="apt" class="detail-list" style="width:400px;">
+  <div v-if="apt" class="detail-list" style="width:500px;">
     <v-card color="white">
       <v-card-title text-align="center" class="white darken-4">
         <h3>{{ apt.아파트 }}</h3>

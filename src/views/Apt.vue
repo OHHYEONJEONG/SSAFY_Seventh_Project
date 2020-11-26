@@ -147,9 +147,9 @@ export default {
   data() {
     return {
       dongCode: '',
-      selectApt: '',
-      selectImage: '',
-      apts: [],
+      selectApt: '', // AptList에서 선택된 아파트
+      selectImage: '', // AptList에서 선택된 아파트 이미지
+      apts: [], // selectGugun에 해당하는 아파트 배열
       aptsBydong: [], // 동별 검색 후 가져온 아파트들
       selectSido: '', // 시도 코드
       selectGugun: '', // 구군 코드
