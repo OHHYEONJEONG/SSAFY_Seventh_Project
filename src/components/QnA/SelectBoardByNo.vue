@@ -46,6 +46,32 @@
         수정하기
       </v-btn>
     </template>
+
+    <br /><br />
+
+    <!--  댓글  -->
+    <label>comment</label>
+    <v-simple-table
+      style="width:500px; margin-left:auto; margin-right:auto;"
+      dense
+    >
+      <tr>
+        <td>{{ user.userid }}:::</td>
+        <td>
+          <v-text-field
+            data-msg="내용"
+            type="text"
+            name="content"
+            id="_content"
+            size="30"
+            v-model="content"
+          />
+        </td>
+        <td colspan="2" style="height:50px; text-align:center;">
+          <v-btn type="submit" name="button">commit</v-btn>
+        </td>
+      </tr>
+    </v-simple-table>
   </div>
 </template>
 
@@ -62,6 +88,7 @@ export default {
       upHere: false,
       article: {},
       user: '',
+      comments: [],
       subnav: [
         { title: '모든 글 보기', path: '/qnaboard' },
         { title: '글 등록하기 ', path: '/insert' },
@@ -72,11 +99,40 @@ export default {
     };
   },
   methods: {
+    insertBoard() {
+      if (this.content == '') {
+        alert('댓글을 작성하세요.');
+        return;
+      }
+
+      http
+        .post('/comment/insert', {
+          writer: this.user.userid,
+          title: this.title,
+          content: this.content,
+        })
+        .then((response) => {
+          if (response.data == 'success') {
+            alert('글등록 처리를 하였습니다.');
+          } else {
+            alert('글등록 처리를 하지 못했습니다.');
+          }
+        });
+      this.submitted = true;
+    },
     updateArticle(did) {
       this.$router.push('/update/' + did);
     },
   },
   mounted() {
+    http
+      .get('/comment/list/' + this.no)
+      .then((response) => (this.comments = response.data))
+      .catch(() => {
+        this.errored = true;
+      })
+      .finally(() => (this.loading = false));
+
     http
       .get('/qnaboard/qdetail/' + this.no)
       .then((response) => (this.article = response.data))
