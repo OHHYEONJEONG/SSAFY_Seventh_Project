@@ -261,9 +261,9 @@ export default {
         .put('/user/updateMember/' + this.user.no, this.user)
         .then((response) => {
           if (response.data == 'success') {
-            alert('글등록 업데이트처리를 하였습니다.');
+            alert('회원정보가 수정되었습니다.');
           } else {
-            alert('글등록 업데이트처리를 하지 못했습니다.');
+            alert('회원정보가 수정되지못했습니다.');
           }
         });
       this.submitted = true;
