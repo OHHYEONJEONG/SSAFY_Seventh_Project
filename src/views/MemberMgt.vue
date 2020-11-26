@@ -6,9 +6,10 @@
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search"
+        label="Search for UserID"
         single-line
         hide-details
+        @keypress.enter="searchMember(search)"
       ></v-text-field>
     </v-card-title>
     <div>
@@ -37,7 +38,7 @@
               <td v-html="user.marriage_type"></td>
               <td>
                 <template>
-                  <v-btn name="삭제" @click="deleteArticle(article.no)">
+                  <v-btn name="삭제" @click="deleteArticle(user.no)">
                     삭제
                   </v-btn>
                 </template>
@@ -81,8 +82,19 @@ export default {
         })
         .finally(() => (this.loading = false));
     },
+    searchMember(name) {
+      http
+        .get('/user/searchMember/' + name)
+
+        .then((response) => (this.userinfo = response.data))
+        .catch(() => {
+          this.errored = true;
+        })
+        .finally(() => (this.loading = false));
+      this.submitted = true;
+    },
     deleteArticle(did) {
-      alert(did + '가 삭제합니다.');
+      // alert(this.userinfo.username + '가 삭제합니다.');
       http
         .delete('/user/deleteMember/' + did)
         .then((response) => {
