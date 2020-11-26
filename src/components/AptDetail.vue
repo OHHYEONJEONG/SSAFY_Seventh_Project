@@ -1,4 +1,5 @@
 <template>
+  <!-- 아파트 상세정보 Vue -->
   <div v-if="apt" class="detail-list" style="width:500px;">
     <v-card color="white">
       <v-card-title text-align="center" class="white darken-4">

@@ -1,4 +1,5 @@
 <template>
+  <!-- 주변 상가 정보 Vue -->
   <div>
     <div v-if="stores.length == 0">
       <h2>

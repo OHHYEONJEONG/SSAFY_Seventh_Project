@@ -1,5 +1,6 @@
 <template>
   <v-container fluid style="width:100%">
+    <!-- 홈 -->
     <v-carousel v-model="model" cycle height="600px">
       <v-carousel-item v-for="img in imgs" :key="img">
         <v-sheet color="#e0eeee" height="600px" tile>
@@ -19,6 +20,7 @@
     <br /><br />
     <br />
     <v-row>
+      <!-- 관심 매물 카드 -->
       <v-col cols="4">
         <v-card class="mx-auto" max-width="100%">
           <v-toolbar color="black" dark>
@@ -67,6 +69,7 @@
           </v-container>
         </v-card>
       </v-col>
+      <!-- 공지사항, 뉴스, 아파트정보 카드 -->
       <v-col cols="8">
         <div class="around">
           <v-card class="mx-auto" max-width="100%">
@@ -106,6 +109,7 @@
                       </v-simple-table>
                     </div>
                   </v-card-text>
+                  <!-- 뉴스 카드 -->
                   <v-card-text v-else-if="tab == 1">
                     <div class="spot_headline">
                       <div class="section_news">

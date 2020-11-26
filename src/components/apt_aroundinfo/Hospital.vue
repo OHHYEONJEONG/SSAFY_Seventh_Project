@@ -1,4 +1,5 @@
 <template>
+  <!--코로나19 안심병원 Vue-->
   <div>
     <div v-if="hospitals.length == 0">
       <h2>

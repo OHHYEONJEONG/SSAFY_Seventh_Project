@@ -1,4 +1,5 @@
 <template>
+  <!-- 아파트 주변정보 Vue-->
   <div class="around">
     <v-card>
       <v-card-title class="text-center justify-center py-6">

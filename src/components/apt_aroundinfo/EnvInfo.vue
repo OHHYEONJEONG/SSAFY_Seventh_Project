@@ -1,4 +1,5 @@
 <template>
+  <!-- 주변 환경 정보 Vue -->
   <div>
     <div v-if="envs.length == 0">
       <h2>

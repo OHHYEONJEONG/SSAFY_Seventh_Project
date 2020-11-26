@@ -1,4 +1,5 @@
 <template>
+  <!-- 검색된 아파트 하나씩의 정보 Vue -->
   <div
     style="margin: 10px;"
     @click="selectedApt"
@@ -45,7 +46,7 @@ export default {
   methods: {
     selectedApt: function() {
       this.$emit('select-apt', this.apt);
-      this.$emit('select-img', this.selectedImage);
+      this.$emit('select-img', this.selectedImage); // 선택된 이미지 부모로 event
     },
     bgColorChange: function(flag) {
       this.isColor = flag;

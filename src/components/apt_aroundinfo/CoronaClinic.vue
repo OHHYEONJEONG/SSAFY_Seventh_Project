@@ -1,4 +1,5 @@
 <template>
+  <!--코로나19 선별 진료소 Vue-->
   <div>
     <div v-if="clinics.length == 0">
       <h2>

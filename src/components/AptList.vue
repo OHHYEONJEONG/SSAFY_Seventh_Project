@@ -1,4 +1,5 @@
 <template>
+  <!-- 검색된 아파트 리스트 정보 Vue -->
   <div>
     <v-card elevation="16" max-width="500" class="mx-auto">
       <v-virtual-scroll :items="aptlist" height="500" item-height="100">
